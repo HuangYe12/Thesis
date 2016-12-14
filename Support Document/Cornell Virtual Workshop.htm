@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="Head1"><title>
+	Cornell Virtual Workshop
+</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="Content-Language" content="en-us"><link rel="stylesheet" type="text/css" media="screen" href="Cornell%20Virtual%20Workshop-Dateien/main2.css">
+
+	        <script type="text/javascript" src="Cornell%20Virtual%20Workshop-Dateien/swfobject.htm"></script>
+<!--[if IE]><style type="text/css"> pre { overflow-x:auto; overflow-y:visible; padding-bottom:15px; } </style><![endif]-->
+
+
+ <script type="JavaScript">
+
+current_overID = "";
+last_overID = "";
+
+function item (img_name,width,height)
+{
+        img_prefix = img_name;
+        this.slide_img = new Image (width,height);
+        this.slide_img.src = "images/" + img_prefix + ".gif";
+}
+
+function new_item (img_name,width,height) 
+{
+        item [img_name] = new item (img_name,width,height);
+}
+
+function mouseover (itemID)
+{
+        current_overID = itemID;
+        if (current_overID != last_overID) {
+                          document.jrcmap.src = item [current_overID].slide_img.src;
+        }
+}
+
+new_item ("one",520,340);
+new_item ("two",520,340);
+new_item ("three",520,340);
+new_item ("four",520,340);
+
+new_item ("DataParameters",513,301);
+new_item ("EnvelopeParameters",513,301);
+
+</script>
+
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="Cornell%20Virtual%20Workshop-Dateien/main.css"></head>
+
+<body class="twocolumn"> 
+
+
+<!-- for text-based browsers -->  <div id="skipnav"><a href="#content">Skip to main content</a></div>
+
+<hr class="CU">
+
+<form method="post" action="./coalesced?AspxAutoDetectCookieSupport=1" id="form1">
+<div class="aspNetHidden">
+<input name="__EVENTTARGET" id="__EVENTTARGET" value="" type="hidden">
+<input name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" type="hidden">
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="2JtwEEFvTYm+wHDfpZCxhtcMo2hnp2kq/4nbmy8nit74CJA7nk7z7/a8B/nFlIxqnGRtoLftLPpVXVBETnfUfg7uMA9XxwIqv9ixtUhPWPAD4yMQQQRHVLNBejoVGndRU4ssxa+M80tSG8A8vgiIW0TaxSbjpGZpdTKgNNyJ/htTENp1LS2WrcX6WffohP+w81FjVvvDPFT8BV+xLsZ+T0JCPjhwcT+6Hxnt0Cb1Ij4KrzpZ8ZGRxyAJ4UTj0X3f1ABV2pDA0dAWHr7SdpzU2f/MjijTttnH+j9aFlLuEZPqPUKkGcsvvxROZHGQQSC0GNH5PDdYzinEdXtjI1ufHjdIBU1t1sV8u5YUSucolUNseLF2EqVbkIcOaIRD5GhIS0WXm9jpojHqCWrs+0cPkt2gdkc176iyRVPnFzhu6e6IaqzwlpZv0ivroVfFZnKzgsO3bFV3f4NLJmFRhfyg74vgPGLElCBxEQI7DrjRXBPsoYYQgko/0zzSZP/B/9FBTv7RmXAqc1rAF9omOl2WCg1m0BKMjoqA5bYOi9o0g409Avrh18M1/GNG2ot4LLdW0wtbWRILaUy4b4OXP+OuD9SfhIXStnqDgHolRCCUju9BTA/vNINOruFhs+O7nP4C60QGX2NNn3RcIM/9vV7PlBRWyQHM7bG5cJ6dA0QPkKqJMl/C8qsiGCTqFg8tAKDiPh6+QtljNP7uiaST9Ydkm0QIlFzJrQ7t5oQSmilhUeQPH4YjoXWfa4ojCQrQdBZBG8KXO8QOxQstIOKVnsGcMgarfGdmqZg4A+IlrpYj8HNQgdeT8GbJDKukJS6N+xgEByh0+IY8jf3iYMjEp0F8cDDrgR56kw7Xylq7gncrajAEVDIuh74Lkt2ONskJXyIpxM0b7fSQpA7hUGelgZ8P0J95p6BL4EtUJsAfvakD6wHC4ZbrqO61XzUkGW5lAVbKs9hM8QJgmeeMVtUotM0JxeA8Rf5RDKEUs1tkkiec2wCtLKTbTBtyyV4rajuRn9rBcU+qjREQOxJdauOSlb0WiFooUgkzs7bmRfWyo+RdX7R62Lb9yPMQ+A6mh1SoHlTplH5FDzIkP9/GbnBx1gUQQUkqYnvhCD9o7bSFkXoifbRovev8oKjgQK+xpK1+gtUTmF6qowMoqqN8vhC31mrUhle3WTNh/vvlJUOoQbNMnDWfvXM6LEewSpa7wvNdfLM3tvsXfftmJJQrWwO+1Bs3G5/MmnSRTLOtk22ATWs8CvJ672ygIqctL1IEsBh1M0ujmZN/aQ55Sb647PkQ5RFQ2Ko3VyytqmEEmR4sYGIZvgxdHQscdey9cp2kKV3fMDCaF3piARrwRk4BSaHq9N1ja5Yu1JiKC9yf/Rjv0VJAVMki0Fm/vQRUcYKK0N7d9IGnUzjgjzxsznA7tUuoeEwdMh97zcqfd49m7oL1gDqvv4HCDrqMgKcIlhQD/bxS7qp0ISjp7B+lS+pVCOqG6Sd1jGkcwKudwiy9US/ycpcEr0vxjrggD3k2RE8MbzB/Ozk9XZ8n8DFw0iSTMDXoB+5PX45Xo7c/EW0coEsRk74/lRpE7IsFLZG4pmgx2F+vSKQShPelRdyymjsea0ihsGouvkKSSAoHApUx3oSucFDKUarDPPnFgNjBYVv6iu7BV4oh7msXH5WWy7feqNaNEGFPeQEaJ/6ud2pBoSG52wO83yEG8KN1b/ZgP+pJfq9E1V0lfBFh8cyikpwcT11ksxmLzlmTKZZsudpHfhFXneiutgRmNn+pw0ww1yFqnRx44LxtmSORwzOrSVkR5WVuGNWR8FAcymUlJOkl6Aj0+W4IqGC7d20iVmjyhOv3nFkHwEf1hc32VibHL717Me7kCCUhFoSLvcLbeV2cNWcH18deKKo=" type="hidden">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="8B9DBDE8" type="hidden">
+	<input name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="w82DpOL8jmdh/+wByJrAcIFiyF1YnUqZDiwb6AHX3VlUspjGClogCXpDzQJGw7ZKLSpiBOX3vhi1SkJDwnfgfpU5tjXdvAgQ11t/2AmnOx5KDDEoGQp4TtXnULEOB+OUwcFgQF/HBLyogldVUvYtjQ+ZwvS7zHFfQOKIlSyoI83zyOyMGZhlMHUUhxA1Nbm35iXSei02JDB7ZYeUjbIeiw==" type="hidden">
+</div>
+
+<div id="header">	
+  
+	<div id="navigation">
+		<ul>
+            <span id="lblNavBar"><li><a href="https://cvw.cac.cornell.edu/default.aspx">Home</a></li><li><div id="current"><a href="https://cvw.cac.cornell.edu/topics.aspx">Topics</a></div></li><li><a href="https://cvw.cac.cornell.edu/main/reference.aspx">Reference</a></li><li><a href="https://cvw.cac.cornell.edu/main/glossary.aspx">Glossary</a></li><li><a href="https://cvw.cac.cornell.edu/main/help.aspx">Help</a></li><li><a href="https://cvw.cac.cornell.edu/main/notebook.aspx">Notebook</a></li></span>
+		</ul>     
+	</div>
+	<div id="TitleBarBg"> 
+	<div id="Containment">
+	    <div id="TitleBar">
+	        <div id="identity"><h1><span id="lblBranch"></span> Virtual Workshop</h1></div>
+        </div>
+        <div id="LogInOut">
+Welcome guest
+                <span id="lblLoginPage">  <a href="https://cvw.cac.cornell.edu/Registration/">Login</a></span>
+
+
+        </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrap">
+
+    <div id="content">
+
+        <!-- BEGIN SECTION NAV -->
+        <div id="section-navigation">
+
+        
+
+<div class="titlebluebox">
+Introduction to GPGPU and CUDA Programming
+</div>
+
+<div class="bluebox">
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/default.aspx">Overview</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/prerequisites.aspx">Prerequisites</a></span>
+</div>
+
+
+<div class="bluebox">
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/performance.aspx">Performance Overview</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/applications.aspx">Heterogeneous Computing</a></span>
+
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/nvidiacuda.aspx">Why Use CUDA?</a></span>
+</div>
+
+<div class="bluebox">
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/tesla.aspx">Tesla K20</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/computecap.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Compute Capability</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/pcie.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;PCI Express 2.0</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/submit.aspx">Running GPU Jobs on Stampede</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/example_submit.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Exercise: Device Info</a></span>
+</div>
+
+<div class="bluebox">
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/structure.aspx">CUDA Programming Structure</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/kernelhost.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Kernel and Host</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/invoke.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Invoking a Kernel</a></span>
+
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/qualifiers.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Qualifiers</a></span>
+
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/exec2.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Exercise: Hello CUDA</a></span>
+
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/thread.aspx">CUDA Thread</a></span>
+
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/thread_exec.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Example: CUDA Thread</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/simt_warp.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;SIMT and Warp</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/thread_sync.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Thread Synchronization</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/memory.aspx">CUDA Memory</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/memory_arch.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Memory Architecture</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/memory_mang.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Memory Management</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/shared_mem_exec.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Example: Shared Memory</a></span>
+
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/synchronization.aspx">Stream and Synchronization</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/exec_synchronization.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Exercise: Synchronization</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/performance_topics.aspx">Performance Topics</a></span>
+
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/thread_div.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Thread Divergence</a></span>
+
+<span class="black">
+<a href="https://cvw.cac.cornell.edu/gpu/coalesced.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Memory Coalescing</a></span>
+
+<span class="blue">
+<a href="https://cvw.cac.cornell.edu/gpu/inst_tpt.aspx">&nbsp;&nbsp;&nbsp;•&nbsp;Instruction Throughput</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/final.aspx">Final Thoughts</a></span>
+
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/appendix.aspx">Appendix: CUDA C Extensions</a></span>
+</div>
+
+<div class="bluebox">
+<span class="blue"> 
+<a href="https://cvw.cac.cornell.edu/gpu/quiz.aspx">Quiz</a></span>
+</div>
+
+
+<span id="cphTOC_Listing2_lblError"></span>
+         
+
+
+        </div>
+        <!-- END SECTION NAV -->
+
+        <hr class="CU">
+
+<!-- BEGIN MAIN -->
+        <div class="title2bluebox">
+            Memory Coalescing
+        </div>
+        <div class="glossarybluebox">
+	        <span id="cphDefinition_lblDefinition"></span>
+        </div>
+        
+        <div class="bigbluebox">
+        
+
+    
+<p>
+Coalesced memory access or memory coalescing  refers to combining multiple memory accesses into a single transaction.  
+On the K20 GPUs on Stampede, every successive 128 bytes ( 32 single precision <span id="cphMain_GlossTerms2_lblGlossaryTerm" tabindex="-1" title="The memory required to store one number. For floating-point numbers, a single-precision word is typically 4 bytes. A double-precision word (often called a doubleword) is 8 bytes." class="GlossaryTerm">words</span>
+
+
+
+
+
+) memory can be accessed by a <span id="cphMain_GlossTerms1_lblGlossaryTerm" tabindex="-1" title="In the NVIDIA Fermi architecture, a group of GPU threads that can be scheduled as a unit, with a typical size of 32. All threads in a warp can run on the same MP." class="GlossaryTerm">warp</span>
+
+
+
+
+
+ (32 consecutive threads) in a single transaction.  
+However, the following conditions may  result in uncoalesced load, i.e., memory access becomes serialized:</p>
+<ol>
+<li>memory is not sequential</li>
+<li>memory access is sparse</li>
+<li>misaligned memory access</li> 
+</ol>
+<h4>Sequential and Aligned Access</h4>
+<p>In Figure 8, 32 consecutive threads access 32 consecutive words.  The
+ memory access is sequential and aligned, and is therefore coalesced.
+</p>
+
+
+        <img class="centered" alt="Aligned and Consecutive" src="Cornell%20Virtual%20Workshop-Dateien/figure8.png" style="height:80%; width:80%;">
+        <br>
+         <figcaption style="text-align: center">Figure 8 - Aligned and Consecutive Access</figcaption>
+
+
+
+
+<h4>Aligned but Non-sequential Access</h4>
+<p>
+In Figure 9, memory access is not sequential, but aligned.  In K20, such
+ access pattern can still be combined into a single transaction.  
+However, this is not the case for earlier compute capability.</p>
+
+
+        <img class="centered" alt="Not consecutive" src="Cornell%20Virtual%20Workshop-Dateien/figure9.png" height="80%" width="90%">
+         <figcaption style="text-align: center">Figure 9 - Not Consecutive Access</figcaption>
+
+
+<h4>Unaligned Memory Access</h4>
+<p>
+In Figure 10, the memory accessed is sequential but misaligned.  
+Therefore, it requires one transaction to load the first 31 words, and 
+another transaction to load the last word.  Two transactions are 
+required.</p>
+
+
+
+        <img class="centered" alt="Misaligned" src="Cornell%20Virtual%20Workshop-Dateien/figure10.png" height="80%" width="80%">
+         <figcaption style="text-align: center">Figure 10 - Misaligned Access</figcaption>
+
+
+<h4>Code Example</h4>
+<p>
+A coalesced memory access instruction looks like this; transfer <span id="cphMain_GlossTerms3_lblGlossaryTerm" tabindex="-1" title="Main memory that is directly addressable by all processors or CPUs. It can be either shared memory or distributed shared memory (Partitioned Global Address Space, PGAS)." class="GlossaryTerm">global memory</span>
+
+
+
+
+
+ (gmem), 
+to <span id="cphMain_GlossTerms4_lblGlossaryTerm" tabindex="-1" title="Access to the same memory addresses by multiple threads in a process. If one thread changes the data that are shared, special mechanisms must be used to ensure that if a different thread accesses the data, it gets the value that the programmer intends." class="GlossaryTerm">shared memory</span>
+
+
+
+
+
+ (shmem):</p>
+<pre>shmem[threadIdx.x]=gmem[blockIdx.x*blockDim.x + threadIdx.x];</pre>
+
+<p>The following instruction is not coalesced:</p>
+
+<pre>stride=4;
+shmem[threadIdx.x]=gmem[stride*blockIdx.x*blockDim.x + threadIdx.x*stride];
+</pre>
+
+
+
+        <div id="noborder">
+                <table width="100%">
+            <tbody><tr><td width="33%" align="left">
+                <a id="lbtnprevious" href="javascript:__doPostBack('ctl00$lbtnprevious','')">&lt;= previous</a></td>
+                <td align="center">
+                <a id="lbtnswitch" href="javascript:__doPostBack('ctl00$lbtnswitch','')">switch</a></td>
+                <td width="33%" align="right">
+                <a id="lbtnnext" href="javascript:__doPostBack('ctl00$lbtnnext','')">next =&gt;</a>
+            </td></tr>
+        </tbody></table>
+        </div>
+        </div>
+        
+
+        
+        <div class="bigblueboxPost">
+       
+            <p></p>
+            <br>  
+            <input name="ctl00$btnNotes" value="Add my notes" id="btnNotes" type="submit">
+            <br>
+        </div>
+        <div class="bigblueboxPost">
+            <input name="ctl00$btnBookmark" value="Mark (M) my place in this module" id="btnBookmark" type="submit"> 
+        </div>
+
+            <span id="lblError" style="color:#CC3300;"></span>
+        
+</div>
+
+
+
+ 
+<!-- END MAIN -->
+
+<hr class="CU">
+</div>
+
+</form>
+<hr class="CU">
+
+<!-- BEGIN FOOTER -->
+    <div id="footer">
+        <div id="footer-content">
+            <div class="rule">
+
+             <br>
+<center>
+  ©
+              <script type="text/javascript">
+                        <!--
+                            var d = new Date();
+                            document.write(d.getFullYear());
+                        //-->
+            </script>2016
+
+  <a href="https://www.cornell.edu/">Cornell University</a> | <a href="https://www.cac.cornell.edu/">Cornell University Center for Advanced Computing</a> | <a href="https://cvw.cac.cornell.edu/gpu/copyright.aspx">Copyright Statement</a>
+</center>
+            </div>
+        </div>
+    </div>
+<!-- END FOOTER -->
+
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=4742968; 
+var sc_invisible=1; 
+var sc_partition=54; 
+var sc_click_stat=1; 
+var sc_security="9445d005"; 
+var sc_https=1; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost +
+"statcounter.com/counter/counter.js'></"+"script>");</script><script type="text/javascript" src="Cornell%20Virtual%20Workshop-Dateien/counter.js"></script>
+
+<noscript><div class="statcounter"><a title="joomla 1.5
+stats" href="http://www.statcounter.com/joomla/"
+target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/4742968/0/9445d005/1/"
+alt="joomla 1.5 stats" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+
+
+</body></html>

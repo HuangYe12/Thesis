@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html lang="en" dir="ltr" class="ie8"><![endif]-->
+<!--[if IE 9]><html lang="en" dir="ltr" class="ie9"><![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="js no-touch no-localstorage sessionstorage contenteditable use-opacity-transitions" dir="ltr" lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Disqus Comments</title>
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <style>
+        .alert--warning {
+            border-radius: 3px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #FFE070;
+            color: #A47703;
+        }
+
+        .alert--warning a,
+        .alert--warning a:hover,
+        .alert--warning strong {
+            color: #A47703;
+            font-weight: bold;
+        }
+
+        .alert--error p,
+        .alert--warning p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        
+        </style>
+    
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        #error {
+            display: none;
+        }
+
+        .clearfix:after {
+            content: "";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        
+    </style>
+
+<link href="a_data/lounge_002.js" rel="prefetch"><link href="a_data/config.js" rel="prefetch"><link href="a_data/lounge.css" rel="stylesheet"><script src="a_data/lounge_002.js" data-requiremodule="lounge/main" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="a_data/config.js" data-requiremodule="remote/config" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="a_data/ga.htm" data-requiremodule="ga" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><style id="css_1481729970732"></style><!-- base href="https://disqus.com/embed/comments/?base=default&version=80d4f059cfacd2ab43998c4759cc706a&f=nvparallelforall&t_i=926%20http%3A%2F%2Fwww.parallelforall.com%2F%3Fp%3D926&t_u=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fhow-access-global-memory-efficiently-cuda-c-kernels%2F&t_e=How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C%2FC%2B%2B%20Kernels&t_d=How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C%2FC%2B%2B%20Kernels&t_t=How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C%2FC%2B%2B%20Kernels&s_o=default&l=" --><link href="a_data/discovery.css" rel="stylesheet"><script src="a_data/discovery.js" data-requiremodule="discovery/main" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script></head>
+<body>
+    
+
+    
+    <div id="error" class="alert--error">
+        <p>We were unable to load Disqus. If you are a moderator please see our <a href="https://docs.disqus.com/help/83/"> troubleshooting guide</a>. </p>
+    </div>
+
+    
+    <script type="text/json" id="disqus-forumData">{"session":{"canModerate":false,"audienceSyncVerified":false,"mustVerify":false,"canReply":true,"mustVerifyEmail":false},"features":{},"forum":{"category":null,"description":"\u003cp>The Massively Parallel Programming Blog from NVIDIA\u003c/p>","founder":"20143529","twitterName":"","url":"http://devblogs.nvidia.com/parallelforall","raw_description":"The Massively Parallel Programming Blog from NVIDIA","guidelines":null,"createdAt":"2013-07-24T21:51:53.693943","favicon":{"permalink":"https://disqus.com/api/forums/favicons/nvparallelforall.jpg","cache":"//a.disquscdn.com/1479321018/images/favicon-default.png"},"language":"en","daysThreadAlive":0,"installCompleted":true,"avatar":{"small":{"permalink":"https://disqus.com/api/forums/avatars/nvparallelforall.jpg?size=32","cache":"//a.disquscdn.com/1479321018/images/noavatar32.png"},"large":{"permalink":"https://disqus.com/api/forums/avatars/nvparallelforall.jpg?size=92","cache":"//a.disquscdn.com/1479321018/images/noavatar92.png"}},"signedUrl":"http://disq.us/?url=http%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall&key=rD8Cy7oqNbM7FGnI11NIbg","id":"nvparallelforall","pk":"2464314","raw_guidelines":null,"settings":{"supportLevel":1,"adsDRNativeEnabled":false,"colorScheme":"auto","adsVideoEnabled":false,"allowAnonPost":false,"ssoRequired":false,"unapproveLinks":false,"linkAffiliationEnabled":false,"adsProductLinksThumbnailsEnabled":false,"adsProductStoriesEnabled":false,"organicDiscoveryEnabled":true,"disable3rdPartyTrackers":false,"adsProductDisplayEnabled":false,"discoveryMax":false,"adsProductLinksEnabled":false,"hasCustomAvatar":false,"moderatorText":"","adsEnabled":false,"adsPositionTopEnabled":false,"allowMedia":true,"adultContent":false,"promotedDiscoveryEnabled":false,"allowAnonVotes":false,"adsProductVideoEnabled":false,"mustVerify":true,"discoveryThumbnailsEnabled":false,"mustVerifyEmail":true,"audienceSyncEnabled":false,"typeface":"auto","adsPositionBottomEnabled":false,"mediaembedEnabled":true,"discoveryLocked":false,"validateAllPosts":false,"adsSettingsLocked":false,"isVIP":true,"adsPositionInthreadEnabled":false},"daysAlive":0,"channel":null,"name":"Parallel Forall"}}</script>
+
+    
+    <script type="text/json" id="disqus-threadData">{"cursor":{"hasPrev":false,"prev":null,"total":4,"hasNext":false,"next":"1:0:0"},"code":0,"response":{"lastModified":1448228265,"posts":[{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Hi Mark,\u003c/p>\u003cp>Could you explain this statement?\u003cbr>\"For the C870 or any other device with a compute capability of 1.0, any misaligned access by a half warp of threads (or aligned access where the threads of the half warp do not access memory in sequence) results in 16 separate 32-byte transactions.\"\u003c/p>\u003cp>And then why were there 4 bytes requested per 32-byte transaction?\u003c/p>\u003cp>Thank you!\u003c/p>","id":"2373670684","isHighlighted":false,"author":{"username":"disqus_BaZjDYNP31","about":"","name":"Dao Nguyen","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.232124,"profileUrl":"https://disqus.com/by/disqus_BaZjDYNP31/","url":"","reputation":1.232124,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2015-11-22T21:33:57","id":"183878640","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/disqus_BaZjDYNP31.jpg","cache":"//a.disquscdn.com/1479321018/images/noavatar32.png"},"isCustom":false,"permalink":"https://disqus.com/api/users/avatars/disqus_BaZjDYNP31.jpg","cache":"//a.disquscdn.com/1479321018/images/noavatar92.png","large":{"permalink":"https://disqus.com/api/users/avatars/disqus_BaZjDYNP31.jpg","cache":"//a.disquscdn.com/1479321018/images/noavatar92.png"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-11-22T21:37:45","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Hi Mark,\n\nCould you explain this statement?\n\"For the C870 or any other device with a compute capability of 1.0, any misaligned access by a half warp of threads (or aligned access where the threads of the half warp do not access memory in sequence) results in 16 separate 32-byte transactions.\"\n\nAnd then why were there 4 bytes requested per 32-byte transaction?\n\nThank you!","canVote":false,"thread":"1957522283","forum":"nvparallelforall","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Minor mistake:\u003c/p>\u003cp>The post is tagged as \"CUDA C++\" while the rest of the post are refered as \"CUDA C/C++\"\u003c/p>","id":"1423634073","isHighlighted":false,"author":{"username":"lenkense","about":"","name":"Lenkense","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.235812,"profileUrl":"https://disqus.com/by/lenkense/","url":"","reputation":1.235812,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2013-10-09T00:43:54","id":"76644305","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/lenkense.jpg","cache":"//a.disquscdn.com/uploads/users/7664/4305/avatar32.jpg?1481236598"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/lenkense.jpg","cache":"//a.disquscdn.com/uploads/users/7664/4305/avatar92.jpg?1481236598","large":{"permalink":"https://disqus.com/api/users/avatars/lenkense.jpg","cache":"//a.disquscdn.com/uploads/users/7664/4305/avatar92.jpg?1481236598"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2014-06-07T03:43:21","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Minor mistake:\n\nThe post is tagged as \"CUDA C++\" while the rest of the post are refered as \"CUDA C/C++\"","canVote":false,"thread":"1957522283","forum":"nvparallelforall","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Fixed. Thanks!\u003c/p>","id":"1432445656","isHighlighted":false,"author":{"username":"mebersole","about":"","name":"Mark Ebersole","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.258394,"profileUrl":"https://disqus.com/by/mebersole/","url":"","reputation":1.258394,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2012-09-11T18:06:10","id":"31983304","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/mebersole.jpg","cache":"//a.disquscdn.com/1479321018/images/noavatar32.png"},"isCustom":false,"permalink":"https://disqus.com/api/users/avatars/mebersole.jpg","cache":"//a.disquscdn.com/1479321018/images/noavatar92.png","large":{"permalink":"https://disqus.com/api/users/avatars/mebersole.jpg","cache":"//a.disquscdn.com/1479321018/images/noavatar92.png"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2014-06-12T18:33:34","parent":1423634073,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Fixed. Thanks!","canVote":false,"thread":"1957522283","forum":"nvparallelforall","depth":1,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>In your description, you discussed that \"Arrays allocated in device memory are aligned to 256-byte memory segments by the CUDA driver.\" Why are the arrays allocated in memory aligned to 256-byte memory segments? Is it limited by the CUDA Driver? Are there other alignments?\u003c/p>","id":"1350754071","isHighlighted":false,"author":{"username":"jizengwei","about":"","name":"Jizeng Wei","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.232124,"profileUrl":"https://disqus.com/by/jizengwei/","url":"","reputation":1.232124,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2014-04-22T19:17:09","id":"104225946","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/jizengwei.jpg","cache":"//a.disquscdn.com/uploads/users/10422/5946/avatar32.jpg?1398194237"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/jizengwei.jpg","cache":"//a.disquscdn.com/uploads/users/10422/5946/avatar92.jpg?1398194237","large":{"permalink":"https://disqus.com/api/users/avatars/jizengwei.jpg","cache":"//a.disquscdn.com/uploads/users/10422/5946/avatar92.jpg?1398194237"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2014-04-22T19:17:16","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"In your description, you discussed that \"Arrays allocated in device memory are aligned to 256-byte memory segments by the CUDA driver.\" Why are the arrays allocated in memory aligned to 256-byte memory segments? Is it limited by the CUDA Driver? Are there other alignments?","canVote":false,"thread":"1957522283","forum":"nvparallelforall","depth":0,"points":0,"moderationLabels":[],"isEdited":false}],"thread":{"feed":"https://nvparallelforall.disqus.com/how_to_access_global_memory_efficiently_in_cuda_cc_kernels/latest.rss","identifiers":["926 http://www.parallelforall.com/?p=926"],"dislikes":0,"likes":1,"message":"","id":"1957522283","createdAt":"2013-11-11T23:03:49","category":"2501077","author":"20143529","isSpam":false,"signedLink":"https://disq.us/?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fhow-access-global-memory-efficiently-cuda-c-kernels%2F&key=co685pkz0rShkJJbYWnk7w","isDeleted":false,"hasStreaming":false,"raw_message":"","isClosed":false,"link":"https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/","slug":"how_to_access_global_memory_efficiently_in_cuda_cc_kernels","forum":"nvparallelforall","clean_title":"How to Access Global Memory Efficiently in CUDA C/C++ Kernels","posts":4,"moderators":[23506272,20143529],"title":"How to Access Global Memory Efficiently in CUDA C/C++ Kernels","highlightedPost":null}},"order":"popular"}</script>
+
+    
+
+    <div id="fixed-content"></div>
+
+
+    
+        
+<script type="text/json" id="disqus-urls">{
+    "root":"//disqus.com",
+    "next":"https://a.disquscdn.com/next/current/embed"
+}</script>
+
+        <script src="a_data/lounge.js" id="bootstrap-script" data-app="lounge" crossorigin="anonymous" async=""></script>
+    
+
+
+<script src="a_data/common.js"></script><iframe style="display: none;"></iframe><div id="layout" data-tracking-area="layout">
+
+<div id="onboard" data-tracking-area="onboard"></div>
+
+<div style="display: none;" id="highlighted-post" data-tracking-area="highlighted" class="highlighted-post"></div>
+
+<div id="global-alert"></div>
+
+<header id="main-nav" data-tracking-area="main-nav">
+<nav class="nav nav-primary">
+<ul>
+<li class="nav-tab nav-tab--primary tab-conversation active" data-role="post-count"><a class="publisher-nav-color">
+<span class="comment-count">
+4 comments
+</span>
+
+<span class="comment-count-placeholder">
+Comments
+</span>
+</a>
+</li>
+<li class="nav-tab nav-tab--primary tab-community">
+<a href="https://disqus.com/home/forums/nvparallelforall/" class="publisher-nav-color" data-action="community-sidebar" data-forum="nvparallelforall" id="community-tab">
+<span class="community-name">
+<strong>Parallel Forall</strong>
+
+</span>
+
+<strong class="community-name-placeholder">Community</strong>
+</a>
+</li>
+<li class="nav-tab nav-tab--primary dropdown user-menu" data-role="logout"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+<span class="dropdown-toggle-wrapper">
+
+<span>
+Login
+</span>
+
+</span> <span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+
+
+<li>
+<a href="#" data-action="auth:disqus">Disqus</a>
+</li>
+<li>
+<a href="#" data-action="auth:facebook">Facebook</a>
+</li>
+<li>
+<a href="#" data-action="auth:twitter">Twitter</a>
+</li>
+<li>
+<a href="#" data-action="auth:google">Google</a>
+</li>
+
+
+
+</ul>
+</li>
+<li class="nav-tab nav-tab--primary notification-menu unread" data-role="notification-menu"><a href="https://disqus.com/home/inbox/" class="notification-container" data-action="home" data-home-path="home/inbox/">
+<span class="notification-icon icon-comment" aria-hidden=""></span>
+<span class="notification-count" data-role="notification-count">1</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+
+<section id="conversation" data-role="main" data-tracking-area="main">
+<div class="nav nav-secondary" data-tracking-area="secondary-nav">
+<ul>
+<li id="recommend-button" class="nav-tab nav-tab--secondary recommend dropdown">
+<div class="thread-likes"><a href="#" data-action="recommend" title="Recommend this discussion" class="dropdown-toggle ">
+<span class="icon-heart"></span>
+<span class="label label-default">Recommend</span>
+<span class="label label-recommended">Recommended</span>
+<span class="label label-count">1</span>
+</a>
+<ul class="dropdown-menu dropdown-menu--coachmark">
+<li>
+<h2 class="coachmark__heading">Discussion Recommended!</h2>
+<p class="coachmark__description">Recommending means this is a 
+discussion worth sharing. It gets shared to your followers' Disqus 
+feeds, and gives the creator kudos!</p>
+<a href="https://disqus.com/home/?utm_source=disqus_embed&amp;utm_content=recommend_btn" class="btn btn-primary coachmark__button" target="_blank">
+ Find More Discussions 
+</a>
+</li>
+</ul>
+</div></li>
+<li id="thread-share-menu" class="nav-tab nav-tab--secondary dropdown share-menu hidden-sm"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Share">
+<span class="icon-export"></span>
+<span class="label">Share</span>
+</a>
+<ul class="share-menu dropdown-menu">
+<li>
+<div class="share-menu__label">Share this discussion on</div>
+<ul>
+<li class="twitter">
+<a data-action="share:twitter" href="#">Twitter</a>
+</li>
+<li class="facebook">
+<a data-action="share:facebook" href="#">Facebook</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li data-role="post-sort" class="nav-tab nav-tab--secondary dropdown sorting pull-right">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+Sort by Best
+
+
+<span class="caret"></span>
+</a>
+<ul class="dropdown-menu pull-right">
+<li class="selected">
+<a href="#" data-action="sort" data-sort="popular">Best<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+
+<li>
+<a href="#" data-action="sort" data-sort="desc">Newest<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+
+<li>
+<a href="#" data-action="sort" data-sort="asc">Oldest<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="posts">
+<div id="form" class="textarea-wrapper--top-level"><form class="reply">
+<div class="postbox">
+<div role="alert"></div>
+<div class="avatar">
+<span class="user">
+<img data-role="user-avatar" src="a_data/noavatar92_002.png" alt="Avatar">
+</span>
+</div>
+
+<div class="textarea-wrapper" data-role="textarea" dir="auto"><div><span class="placeholder">Join the discussion…</span><div aria-label="Join the discussion…" style="overflow: auto; word-wrap: break-word; max-height: 350px;" data-role="editable" aria-multiline="true" role="textbox" tabindex="0" class="textarea" contenteditable="true"><p><br></p></div><div style="display: none;"><ul class="user-mention__list">
+<li class="header user-mention__header">
+<h5>in this conversation</h5>
+</li>
+</ul>
+</div></div>
+<div data-role="drag-drop-placeholder" class="media-drag-hover" style="display: none">
+<div class="drag-text">
+⬇ Drag and drop your images here to upload them.
+</div>
+</div>
+<div class="media-preview empty" data-role="media-preview"><ul data-role="media-progress-list"></ul>
+<ul data-role="media-rich-list"></ul>
+<div class="media-expanded empty" data-role="media-preview-expanded">
+<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-role="media-preview-expanded-image" alt="Media preview placeholder">
+</div>
+</div>
+<div class="edit-alert" role="postbox-alert"></div>
+<div class="post-actions">
+<ul class="wysiwyg">
+<li class="wysiwyg__item" data-role="media-uploader"><a href="#" tabindex="-1" data-action="attach" class="attach" title="Upload Images"><span>Attach</span></a>
+<input data-role="media-upload" tabindex="-1" accept="image/*" type="file">
+</li>
+</ul>
+</div>
+</div>
+
+<div data-role="login-form"><div><section class="auth-section logged-out">
+<div class="connect">
+<h6>Log in with</h6>
+<ul data-role="login-menu" class="services login-buttons">
+
+<li class="auth-disqus">
+<button type="button" data-action="auth:disqus" title="Disqus" class="connect__button"><i class="icon-disqus"></i></button>
+</li>
+<li class="auth-facebook">
+<button type="button" data-action="auth:facebook" title="Facebook" class="connect__button"><i class="icon-facebook-circle"></i></button>
+</li>
+<li class="auth-twitter">
+<button type="button" data-action="auth:twitter" title="Twitter" class="connect__button"><i class="icon-twitter-circle"></i></button>
+</li>
+<li class="auth-google">
+<button type="button" data-action="auth:google" title="Google" class="connect__button"><i class="icon-google-plus-circle"></i></button>
+</li>
+</ul>
+</div>
+<div class="guest">
+<h6 class="guest-form-title">
+<span class="register-text"> or sign up with Disqus </span>
+<span class="guest-text"> or pick a name </span>
+</h6>
+
+<div class="help-tooltip__wrapper help-icon">
+<div id="rules" class="tooltip show help-tooltip">
+<h3 class="help-tooltip__heading">Disqus is a discussion network</h3>
+<ul class="help-tooltip__list">
+<li><span>Disqus never moderates or censors. The rules on this community are its own.</span></li>
+<li><span>Your email is safe with us. It's only used for moderation and optional notifications.</span></li>
+<li><span>Don't be a jerk or do anything illegal. Everything is easier that way.</span></li>
+</ul>
+<p class="clearfix"><a href="https://docs.disqus.com/kb/terms-and-policies/" class="btn btn-small help-tooltip__button" target="_blank">Read full terms and conditions</a></p>
+</div>
+</div>
+
+<p class="input-wrapper">
+<input dir="auto" placeholder="Name" name="display_name" id="view39_display_name" maxlength="30" class="input--text" type="text">
+</p>
+
+<div class="guest-details " data-role="guest-details">
+<p class="input-wrapper">
+<input dir="auto" placeholder="Email" name="email" id="view39_email" class="input--text" type="email">
+</p>
+
+<p class="input-wrapper">
+<input dir="auto" class="register-text input--text" placeholder="Password" name="password" id="view39_password" type="password">
+</p>
+
+<div class="acceptance-wrapper register-text">
+By signing up, you agree to the Disqus <a target="_blank" href="https://help.disqus.com/customer/portal/articles/1753105-basic-rules-for-disqus-powered-profiles-and-discussions">Basic Rules</a>, <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466260-terms-of-service">Terms of Service</a>, and <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466259-privacy-policy">Privacy Policy</a>.
+</div>
+<div class="acceptance-wrapper guest-text">
+By posting, you agree to the Disqus <a target="_blank" href="https://help.disqus.com/customer/portal/articles/1753105-basic-rules-for-disqus-powered-profiles-and-discussions">Basic Rules</a>, <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466260-terms-of-service">Terms of Service</a>, and <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466259-privacy-policy">Privacy Policy</a>.
+</div>
+
+<input name="author-guest" style="display:none" type="checkbox">
+
+<div class="proceed" data-role="submit-btn-container">
+<button type="submit" class="proceed__button btn submit" aria-label="Next"><span class="icon-proceed"></span><div class="spinner"></div></button>
+</div>
+</div>
+</div>
+</section>
+
+</div></div>
+</div>
+</form></div>
+
+<button class="alert alert--realtime" style="display: none" data-role="realtime-notification">
+</button>
+
+<div id="no-posts" style="display:none"></div>
+
+<ul id="post-list" class="post-list"><li id="post-2373670684" class="post"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/disqus_BaZjDYNP31/" class="user" data-action="profile" data-username="disqus_BaZjDYNP31">
+<img data-role="user-avatar" data-user="183878640" src="a_data/noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/disqus_BaZjDYNP31/" data-action="profile" data-username="disqus_BaZjDYNP31" data-role="username">Dao Nguyen</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/#comment-2373670684" data-role="relative-time" class="time-ago" title="Sunday, November 22, 2015 10:37 PM">
+a year ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hi Mark,</p><p>Could you explain this statement?<br>"For the C870 or 
+any other device with a compute capability of 1.0, any misaligned access
+ by a half warp of threads (or aligned access where the threads of the 
+half warp do not access memory in sequence) results in 16 separate 
+32-byte transactions."</p><p>And then why were there 4 bytes requested per 32-byte transaction?</p><p>Thank you!</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/139800s" name="Link" title="Click to copy post link" data-action="copy-link" readonly="readonly">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2373670684">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li id="post-1423634073" class="post"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/lenkense/" class="user" data-action="profile" data-username="lenkense">
+<img data-role="user-avatar" data-user="76644305" src="a_data/noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/lenkense/" data-action="profile" data-username="lenkense" data-role="username">Lenkense</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/#comment-1423634073" data-role="relative-time" class="time-ago" title="Saturday, June 7, 2014 5:43 AM">
+3 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Minor mistake:</p><p>The post is tagged as "CUDA C++" while the rest of the post are refered as "CUDA C/C++"</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/njlf2x" name="Link" title="Click to copy post link" data-action="copy-link" readonly="readonly">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1423634073">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"><li id="post-1432445656" class="post"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/mebersole/" class="user" data-action="profile" data-username="mebersole">
+<img data-role="user-avatar" data-user="31983304" src="a_data/noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/mebersole/" data-action="profile" data-username="mebersole" data-role="username">Mark Ebersole</a></span>
+
+<span><a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/#comment-1423634073" class="parent-link" data-role="parent-link"><i aria-hidden="true" class="icon-forward" title="in reply to"></i> Lenkense</a></span>
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/#comment-1432445656" data-role="relative-time" class="time-ago" title="Thursday, June 12, 2014 8:33 PM">
+3 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Fixed. Thanks!</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/noua54" name="Link" title="Click to copy post link" data-action="copy-link" readonly="readonly">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1432445656">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li></ul>
+
+</li><li id="post-1350754071" class="post"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/jizengwei/" class="user" data-action="profile" data-username="jizengwei">
+<img data-role="user-avatar" data-user="104225946" src="a_data/noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/jizengwei/" data-action="profile" data-username="jizengwei" data-role="username">Jizeng Wei</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/#comment-1350754071" data-role="relative-time" class="time-ago" title="Tuesday, April 22, 2014 9:17 PM">
+3 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>In your description, you discussed that "Arrays allocated in device 
+memory are aligned to 256-byte memory segments by the CUDA driver." Why 
+are the arrays allocated in memory aligned to 256-byte memory segments? 
+Is it limited by the CUDA Driver? Are there other alignments?</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/mc7cif" name="Link" title="Click to copy post link" data-action="copy-link" readonly="readonly">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1350754071">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li></ul>
+
+<div class="load-more" data-role="more" style="display:none">
+<a href="#" data-action="more-posts" class="btn load-more__button">Load more comments</a>
+</div>
+</div>
+
+</section>
+
+<div id="placement-bottom" data-tracking-area="discovery-south"><div style="height: auto; visibility: visible;" class="post-list"><div style="display: block; width: 100%;"><div id="discovery-main-c142" class="discovery-main">
+
+<section id="col-organic-c160" class="col-organic">
+<header class="discovery-col-header">
+<h2>Also on <strong>Parallel Forall</strong>
+</h2>
+</header>
+<ul class="discovery-posts" data-role="discovery-posts"><li class="discovery-post post-0" id="discovery-link-organic-4923929308">
+<a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fproduction-deep-learning-nvidia-gpu-inference-engine%2F%3AbYEM9OUZW3qGgjt19JW-wUTLHCI&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=4923929308&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4923929308" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Production Deep Learning with NVIDIA GPU Inference Engine">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Production Deep Learning with NVIDIA GPU Inference Engine
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+18 comments
+</li>
+<li class="time">6 months ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fproduction-deep-learning-nvidia-gpu-inference-engine%2F%3AbYEM9OUZW3qGgjt19JW-wUTLHCI&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=4923929308&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4923929308" class="top-comment" data-role="discovery-top-comment">
+<img data-src="//a.disquscdn.com/1479321018/images/noavatar92.png" alt="Avatar" data-role="discovery-avatar">
+<p><span class="user" data-role="discovery-top-comment-author">Chris</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> Thanks very much for reporting this! There is a bug with eltwise and a gap in the parser for tanh. We have …</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-1" id="discovery-link-organic-4643714819">
+<a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fdeep-learning-nutshell-sequence-learning%2F%3Ao_5JBuJLGQ6-85BVX1ID59KdQTU&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=4643714819&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4643714819" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Deep Learning in a Nutshell: Sequence Learning">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Deep Learning in a Nutshell: Sequence Learning
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+3 comments
+</li>
+<li class="time">9 months ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fdeep-learning-nutshell-sequence-learning%2F%3Ao_5JBuJLGQ6-85BVX1ID59KdQTU&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=4643714819&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4643714819" class="top-comment" data-role="discovery-top-comment">
+<img data-src="//a.disquscdn.com/1479321018/images/noavatar92.png" alt="Avatar" data-role="discovery-avatar">
+<p><span class="user" data-role="discovery-top-comment-author">Bhavya</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> can deep learning, specifically LSTM can be used for topic modeling purpose? Deep neural networks are …</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-2" id="discovery-link-organic-5110493111">
+<a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fexploring-spacenet-dataset-using-digits%2F%3AswCWTB-d57I0IkRFk-evbR5YF7E&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=5110493111&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=5110493111" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Exploring the SpaceNet Dataset Using DIGITS">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Exploring the SpaceNet Dataset Using DIGITS
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+4 comments
+</li>
+<li class="time">3 months ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fexploring-spacenet-dataset-using-digits%2F%3AswCWTB-d57I0IkRFk-evbR5YF7E&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=5110493111&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=5110493111" class="top-comment" data-role="discovery-top-comment">
+<img data-src="//a.disquscdn.com/1479321018/images/noavatar92.png" alt="Avatar" data-role="discovery-avatar">
+<p><span class="user" data-role="discovery-top-comment-author">Nerea</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> Hi, in reference to 'We modified the default DetectNet network by changing both network architecture …</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-3" id="discovery-link-organic-4802009902">
+<a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Faccelerate-recommender-systems-with-gpus%2F%3AG5usBbc02ffMSlP7P9D_KYgTz-c&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=4802009902&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4802009902" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Accelerate Recommender Systems with GPUs">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Accelerate Recommender Systems with GPUs
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+3 comments
+</li>
+<li class="time">7 months ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Faccelerate-recommender-systems-with-gpus%2F%3AG5usBbc02ffMSlP7P9D_KYgTz-c&amp;imp=1i273cn22fimsq&amp;prev_imp&amp;forum_id=2464314&amp;forum=nvparallelforall&amp;thread_id=1957522283&amp;thread=4802009902&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4802009902" class="top-comment" data-role="discovery-top-comment">
+<img data-src="//a.disquscdn.com/1479321018/images/noavatar92.png" alt="Avatar" data-role="discovery-avatar">
+<p><span class="user" data-role="discovery-top-comment-author">Wei Tan</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> Thanks for the comment John and apologize for the late reply.As for CG iteration, we tested on three data sets …</span></p>
+</a>
+
+</li>
+</ul>
+</section>
+
+</div>
+</div></div></div>
+
+<div id="footer" data-tracking-area="footer" class="disqus-footer__wrapper">
+<ul class="disqus-footer">
+<li class="disqus-footer__logo"><a href="https://disqus.com/" rel="nofollow" title="Powered by Disqus" class="disqus-footer__link">Powered by Disqus</a></li>
+<li id="thread-subscribe-button" class="email disqus-footer__item"> 
+<div class="default">
+<a href="#" rel="nofollow" data-action="subscribe" title="Subscribe and get email updates from this discussion" class="disqus-footer__link"><i aria-hidden="true" class="icon icon-mail"></i><span class="clip">Subscribe</span> <i aria-hidden="true" class="icon icon-checkmark"></i></a>
+</div>
+<div class="form">
+<div class="input-wrapper"><input id="thread-subscribe-email" placeholder="yourname@email.com" class="disqus-footer__input input--text" type="email"></div>
+</div>
+</li>
+<li class="install disqus-footer__item">
+<a href="https://publishers.disqus.com/engage?utm_source=nvparallelforall&amp;utm_medium=Disqus-Footer" rel="nofollow" target="_blank" class="disqus-footer__link">
+<i aria-hidden="true" class="icon icon-disqus"></i>
+<span class="clip hidden-sm">Add Disqus to your site</span>
+<span class="clip visible-sm hidden-xs">Add Disqus</span>
+<span class="clip visible-xs">Add</span>
+</a>
+</li>
+<li class="privacy disqus-footer__item">
+<a href="https://help.disqus.com/customer/portal/articles/1657951?utm_source=disqus&amp;utm_medium=embed-footer&amp;utm_content=privacy-btn" rel="nofollow" target="_blank" class="disqus-footer__link">
+<i aria-hidden="true" class="icon icon-lock"></i>
+<span class="clip">Privacy</span>
+</a>
+</li>
+</ul>
+</div>
+</div></body></html>

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="js no-flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths wf-nimbussanscondensed-n4-active wf-nimbussanscondensed-n7-active wf-active" lang="en-US"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/a_005.htm" async=""></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/300lo.json" type="text/javascript"></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/_ate.config_resp" type="text/javascript"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>How to Access Global Memory Efficiently in CUDA C/C++ Kernels | Parallel Forall</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://devblogs.nvidia.com/parallelforall/xmlrpc.php">
+	<style>
+.stb-container-css {margin: 10px 10px 10px 10px;}.stb-box {}.stb-caption-box {}.stb-body-box {}
+/* Class Dependent Parameters */
+.stb-border.stb-alert-container {border: 1px none #FF4F4A;}.stb-side.stb-alert-container {background: #1D1A1A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1D1A1A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);}.stb-side-none.stb-alert-container {background: #fDCBC9;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fDCBC9', endColorstr='#FB7D78',GradientType=0 );background: -moz-linear-gradient(top,  #fDCBC9 30%, #FB7D78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#fDCBC9), color-stop(90%,#FB7D78));background: -webkit-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: -o-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: -ms-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: linear-gradient(#fDCBC9 30%, #FB7D78 90%);}.stb-alert_box {background: #fDCBC9;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fDCBC9', endColorstr='#FB7D78',GradientType=0 );background: -moz-linear-gradient(top,  #fDCBC9 30%, #FB7D78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#fDCBC9), color-stop(90%,#FB7D78));background: -webkit-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: -o-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: -ms-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: linear-gradient(#fDCBC9 30%, #FB7D78 90%);color: #000000;}.stb-alert-caption_box {background: #1D1A1A;background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);color: #FFFFFF;}.stb-alert-body_box {background: #fDCBC9;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fDCBC9', endColorstr='#FB7D78',GradientType=0 );background: -moz-linear-gradient(top,  #fDCBC9 30%, #FB7D78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#fDCBC9), color-stop(90%,#FB7D78));background: -webkit-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: -o-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: -ms-linear-gradient(top,  #fDCBC9 30%,#FB7D78 90%);background: linear-gradient(#fDCBC9 30%, #FB7D78 90%);color: #000000;}.stb-border.stb-black-container {border: 1px none #6E6E6E;}.stb-side.stb-black-container {background: #4B4747;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4B4747', endColorstr='#141414',GradientType=0 );background: -moz-linear-gradient(top,  #4B4747 30%, #141414 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#4B4747), color-stop(90%,#141414));background: -webkit-linear-gradient(top,  #4B4747 30%,#141414 90%);background: -o-linear-gradient(top,  #4B4747 30%,#141414 90%);background: -ms-linear-gradient(top,  #4B4747 30%,#141414 90%);background: linear-gradient(#4B4747 30%, #141414 90%);}.stb-side-none.stb-black-container {background: #3B3B3B;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3B3B3B', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #3B3B3B 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#3B3B3B), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: -o-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: -ms-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: linear-gradient(#3B3B3B 30%, #000000 90%);}.stb-black_box {background: #3B3B3B;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3B3B3B', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #3B3B3B 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#3B3B3B), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: -o-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: -ms-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: linear-gradient(#3B3B3B 30%, #000000 90%);color: #FFFFFF;}.stb-black-caption_box {background: #4B4747;background: -moz-linear-gradient(top,  #4B4747 30%, #141414 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#4B4747), color-stop(90%,#141414));background: -webkit-linear-gradient(top,  #4B4747 30%,#141414 90%);background: -o-linear-gradient(top,  #4B4747 30%,#141414 90%);background: -ms-linear-gradient(top,  #4B4747 30%,#141414 90%);background: linear-gradient(#4B4747 30%, #141414 90%);color: #FFFFFF;}.stb-black-body_box {background: #3B3B3B;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3B3B3B', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #3B3B3B 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#3B3B3B), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: -o-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: -ms-linear-gradient(top,  #3B3B3B 30%,#000000 90%);background: linear-gradient(#3B3B3B 30%, #000000 90%);color: #FFFFFF;}.stb-border.stb-custom-container {border: 1px none #F844EE;}.stb-side.stb-custom-container {background: #1D1A1A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1D1A1A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);}.stb-side-none.stb-custom-container {background: #F7CDF5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F7CDF5', endColorstr='#F77DF1',GradientType=0 );background: -moz-linear-gradient(top,  #F7CDF5 30%, #F77DF1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#F7CDF5), color-stop(90%,#F77DF1));background: -webkit-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: -o-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: -ms-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: linear-gradient(#F7CDF5 30%, #F77DF1 90%);}.stb-custom_box {background: #F7CDF5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F7CDF5', endColorstr='#F77DF1',GradientType=0 );background: -moz-linear-gradient(top,  #F7CDF5 30%, #F77DF1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#F7CDF5), color-stop(90%,#F77DF1));background: -webkit-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: -o-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: -ms-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: linear-gradient(#F7CDF5 30%, #F77DF1 90%);color: #000000;}.stb-custom-caption_box {background: #1D1A1A;background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);color: #FFFFFF;}.stb-custom-body_box {background: #F7CDF5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F7CDF5', endColorstr='#F77DF1',GradientType=0 );background: -moz-linear-gradient(top,  #F7CDF5 30%, #F77DF1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#F7CDF5), color-stop(90%,#F77DF1));background: -webkit-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: -o-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: -ms-linear-gradient(top,  #F7CDF5 30%,#F77DF1 90%);background: linear-gradient(#F7CDF5 30%, #F77DF1 90%);color: #000000;}.stb-border.stb-download-container {border: 1px none #65ADFE;}.stb-side.stb-download-container {background: #1D1A1A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1D1A1A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);}.stb-side-none.stb-download-container {background: #78C0F7;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#78C0F7', endColorstr='#2E7CB9',GradientType=0 );background: -moz-linear-gradient(top,  #78C0F7 30%, #2E7CB9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#78C0F7), color-stop(90%,#2E7CB9));background: -webkit-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: -o-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: -ms-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: linear-gradient(#78C0F7 30%, #2E7CB9 90%);}.stb-download_box {background: #78C0F7;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#78C0F7', endColorstr='#2E7CB9',GradientType=0 );background: -moz-linear-gradient(top,  #78C0F7 30%, #2E7CB9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#78C0F7), color-stop(90%,#2E7CB9));background: -webkit-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: -o-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: -ms-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: linear-gradient(#78C0F7 30%, #2E7CB9 90%);color: #000000;}.stb-download-caption_box {background: #1D1A1A;background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);color: #FFFFFF;}.stb-download-body_box {background: #78C0F7;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#78C0F7', endColorstr='#2E7CB9',GradientType=0 );background: -moz-linear-gradient(top,  #78C0F7 30%, #2E7CB9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#78C0F7), color-stop(90%,#2E7CB9));background: -webkit-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: -o-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: -ms-linear-gradient(top,  #78C0F7 30%,#2E7CB9 90%);background: linear-gradient(#78C0F7 30%, #2E7CB9 90%);color: #000000;}.stb-border.stb-get-started-container {border: 1px none #76b900;}.stb-side.stb-get-started-container {background: #FE9A05;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE9A05', endColorstr='#FE9A05',GradientType=0 );background: -moz-linear-gradient(top,  #FE9A05 30%, #FE9A05 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#FE9A05));background: -webkit-linear-gradient(top,  #FE9A05 30%,#FE9A05 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#FE9A05 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#FE9A05 90%);background: linear-gradient(#FE9A05 30%, #FE9A05 90%);}.stb-side-none.stb-get-started-container {background: #76b900;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#76b900', endColorstr='#76b900',GradientType=0 );background: -moz-linear-gradient(top,  #76b900 30%, #76b900 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#76b900), color-stop(90%,#76b900));background: -webkit-linear-gradient(top,  #76b900 30%,#76b900 90%);background: -o-linear-gradient(top,  #76b900 30%,#76b900 90%);background: -ms-linear-gradient(top,  #76b900 30%,#76b900 90%);background: linear-gradient(#76b900 30%, #76b900 90%);}.stb-get-started_box {background: #76b900;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#76b900', endColorstr='#76b900',GradientType=0 );background: -moz-linear-gradient(top,  #76b900 30%, #76b900 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#76b900), color-stop(90%,#76b900));background: -webkit-linear-gradient(top,  #76b900 30%,#76b900 90%);background: -o-linear-gradient(top,  #76b900 30%,#76b900 90%);background: -ms-linear-gradient(top,  #76b900 30%,#76b900 90%);background: linear-gradient(#76b900 30%, #76b900 90%);color: #000000;}.stb-get-started-caption_box {background: #FE9A05;background: -moz-linear-gradient(top,  #FE9A05 30%, #FE9A05 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#FE9A05));background: -webkit-linear-gradient(top,  #FE9A05 30%,#FE9A05 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#FE9A05 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#FE9A05 90%);background: linear-gradient(#FE9A05 30%, #FE9A05 90%);color: #FFFFFF;}.stb-get-started-body_box {background: #76b900;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#76b900', endColorstr='#76b900',GradientType=0 );background: -moz-linear-gradient(top,  #76b900 30%, #76b900 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#76b900), color-stop(90%,#76b900));background: -webkit-linear-gradient(top,  #76b900 30%,#76b900 90%);background: -o-linear-gradient(top,  #76b900 30%,#76b900 90%);background: -ms-linear-gradient(top,  #76b900 30%,#76b900 90%);background: linear-gradient(#76b900 30%, #76b900 90%);color: #000000;}.stb-border.stb-grey-container {border: 1px none #BBBBBB;}.stb-side.stb-grey-container {background: #B5B5B5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#B5B5B5', endColorstr='#6E6E6E',GradientType=0 );background: -moz-linear-gradient(top,  #B5B5B5 30%, #6E6E6E 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#B5B5B5), color-stop(90%,#6E6E6E));background: -webkit-linear-gradient(top,  #B5B5B5 30%,#6E6E6E 90%);background: -o-linear-gradient(top,  #B5B5B5 30%,#6E6E6E 90%);background: -ms-linear-gradient(top,  #B5B5B5 30%,#6E6E6E 90%);background: linear-gradient(#B5B5B5 30%, #6E6E6E 90%);}.stb-side-none.stb-grey-container {background: #E3E3E3;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E3E3E3', endColorstr='#ABABAB',GradientType=0 );background: -moz-linear-gradient(top,  #E3E3E3 30%, #ABABAB 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E3E3E3), color-stop(90%,#ABABAB));background: -webkit-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: -o-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: -ms-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: linear-gradient(#E3E3E3 30%, #ABABAB 90%);}.stb-grey_box {background: #E3E3E3;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E3E3E3', endColorstr='#ABABAB',GradientType=0 );background: -moz-linear-gradient(top,  #E3E3E3 30%, #ABABAB 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E3E3E3), color-stop(90%,#ABABAB));background: -webkit-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: -o-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: -ms-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: linear-gradient(#E3E3E3 30%, #ABABAB 90%);color: #000000;}.stb-grey-caption_box {background: #B5B5B5;background: -moz-linear-gradient(top,  #B5B5B5 30%, #6E6E6E 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#B5B5B5), color-stop(90%,#6E6E6E));background: -webkit-linear-gradient(top,  #B5B5B5 30%,#6E6E6E 90%);background: -o-linear-gradient(top,  #B5B5B5 30%,#6E6E6E 90%);background: -ms-linear-gradient(top,  #B5B5B5 30%,#6E6E6E 90%);background: linear-gradient(#B5B5B5 30%, #6E6E6E 90%);color: #FFFFFF;}.stb-grey-body_box {background: #E3E3E3;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E3E3E3', endColorstr='#ABABAB',GradientType=0 );background: -moz-linear-gradient(top,  #E3E3E3 30%, #ABABAB 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E3E3E3), color-stop(90%,#ABABAB));background: -webkit-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: -o-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: -ms-linear-gradient(top,  #E3E3E3 30%,#ABABAB 90%);background: linear-gradient(#E3E3E3 30%, #ABABAB 90%);color: #000000;}.stb-border.stb-info-container {border: 1px none #76b900;}.stb-side.stb-info-container {background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 );background: -moz-linear-gradient(top,  #ffffff 30%, #ffffff 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#ffffff), color-stop(90%,#ffffff));background: -webkit-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -o-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -ms-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: linear-gradient(#ffffff 30%, #ffffff 90%);}.stb-side-none.stb-info-container {background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 );background: -moz-linear-gradient(top,  #ffffff 30%, #ffffff 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#ffffff), color-stop(90%,#ffffff));background: -webkit-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -o-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -ms-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: linear-gradient(#ffffff 30%, #ffffff 90%);}.stb-info_box {background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 );background: -moz-linear-gradient(top,  #ffffff 30%, #ffffff 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#ffffff), color-stop(90%,#ffffff));background: -webkit-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -o-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -ms-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: linear-gradient(#ffffff 30%, #ffffff 90%);color: #000000;}.stb-info-caption_box {background: #ffffff;background: -moz-linear-gradient(top,  #ffffff 30%, #ffffff 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#ffffff), color-stop(90%,#ffffff));background: -webkit-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -o-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -ms-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: linear-gradient(#ffffff 30%, #ffffff 90%);color: #FFFFFF;}.stb-info-body_box {background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 );background: -moz-linear-gradient(top,  #ffffff 30%, #ffffff 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#ffffff), color-stop(90%,#ffffff));background: -webkit-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -o-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: -ms-linear-gradient(top,  #ffffff 30%,#ffffff 90%);background: linear-gradient(#ffffff 30%, #ffffff 90%);color: #000000;}.stb-border.stb-warning-container {border: 1px none #FE9A05;}.stb-side.stb-warning-container {background: #1D1A1A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1D1A1A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);}.stb-side-none.stb-warning-container {background: #F8FC91;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8FC91', endColorstr='#F0D208',GradientType=0 );background: -moz-linear-gradient(top,  #F8FC91 30%, #F0D208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#F8FC91), color-stop(90%,#F0D208));background: -webkit-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: -o-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: -ms-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: linear-gradient(#F8FC91 30%, #F0D208 90%);}.stb-warning_box {background: #F8FC91;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8FC91', endColorstr='#F0D208',GradientType=0 );background: -moz-linear-gradient(top,  #F8FC91 30%, #F0D208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#F8FC91), color-stop(90%,#F0D208));background: -webkit-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: -o-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: -ms-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: linear-gradient(#F8FC91 30%, #F0D208 90%);color: #000000;}.stb-warning-caption_box {background: #1D1A1A;background: -moz-linear-gradient(top,  #1D1A1A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#1D1A1A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -o-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: -ms-linear-gradient(top,  #1D1A1A 30%,#504848 90%);background: linear-gradient(#1D1A1A 30%, #504848 90%);color: #FFFFFF;}.stb-warning-body_box {background: #F8FC91;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8FC91', endColorstr='#F0D208',GradientType=0 );background: -moz-linear-gradient(top,  #F8FC91 30%, #F0D208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#F8FC91), color-stop(90%,#F0D208));background: -webkit-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: -o-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: -ms-linear-gradient(top,  #F8FC91 30%,#F0D208 90%);background: linear-gradient(#F8FC91 30%, #F0D208 90%);color: #000000;}</style>
+
+<!-- All in One SEO Pack 2.3.11 by Michael Torbert of Semper Fi Web Design[421,513] -->
+<meta name="description" content="In the previous two posts we looked at how to move data efficiently between the host and device. In this sixth post of our CUDA C/C++ series we discuss how to">
+
+<meta name="keywords" content="cuda c/c++,memory">
+
+<link rel="canonical" href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/">
+<!-- /all in one seo pack -->
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://devblogs.nvidia.com/">
+<link rel="dns-prefetch" href="https://secure.gravatar.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Parallel Forall » Feed" href="https://devblogs.nvidia.com/parallelforall/feed/">
+<link rel="alternate" type="application/rss+xml" title="Parallel Forall » Comments Feed" href="https://devblogs.nvidia.com/parallelforall/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Parallel Forall » How to Access Global Memory Efficiently in CUDA C/C++ Kernels Comments Feed" href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/feed/">
+		<script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/widgets.js" id="twitter-wjs"></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/analytics.htm" async=""></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/devblogs.nvidia.com\/parallelforall\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6.1"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/wp-emoji-release.js"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="sidr-style-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jquery.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="stbCoreCSS-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/stb-core.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jetpack.css" type="text/css" media="all">
+<!-- This site uses the Google Analytics by MonsterInsights plugin v5.5.4 - Universal enabled - https://www.monsterinsights.com/ -->
+<script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+
+	__gaTracker('create', 'UA-1273456-64', 'auto');
+	__gaTracker('set', 'forceSSL', true);
+	__gaTracker('send','pageview');
+
+</script>
+<!-- / Google Analytics by MonsterInsights -->
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jquery_004.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jquery-migrate.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jquery.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/modernizr-2.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jquery_003.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/script.js"></script>
+<link rel="https://api.w.org/" href="https://devblogs.nvidia.com/parallelforall/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://devblogs.nvidia.com/parallelforall/xmlrpc.php?rsd">
+<link rel="prev" title="How to Access Global Memory Efficiently in CUDA Fortran Kernels" href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-fortran-kernels/">
+<link rel="next" title="CUDA Pro Tip: Flush Denormals with Confidence" href="https://devblogs.nvidia.com/parallelforall/cuda-pro-tip-flush-denormals-confidence/">
+
+<link rel="shortlink" href="https://wp.me/p3Xf58-eW">
+<link rel="alternate" type="application/json+oembed" href="https://devblogs.nvidia.com/parallelforall/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fhow-access-global-memory-efficiently-cuda-c-kernels%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://devblogs.nvidia.com/parallelforall/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fdevblogs.nvidia.com%2Fparallelforall%2Fhow-access-global-memory-efficiently-cuda-c-kernels%2F&amp;format=xml">
+<script type="text/javascript">
+	window._zem_rp_post_id = '926';
+	window._zem_rp_thumbnails = false;
+	window._zem_rp_post_title = 'How+to+Access+Global+Memory+Efficiently+in+CUDA+C%2FC%2B%2B+Kernels';
+	window._zem_rp_post_tags = ['cuda+c%2Fc%2B%2B', 'memory', 'features', 'transfer', 'seri', 'host', 'cc', 'optim', 'data', 'a', 'code', 'cuda', 'snippet', 'devic', 'memori', 'behavior', 'kernel', 'global'];
+	window._zem_rp_static_base_url = 'https://content.zemanta.com/static/';
+	window._zem_rp_wp_ajax_url = 'https://devblogs.nvidia.com/parallelforall/wp-admin/admin-ajax.php';
+	window._zem_rp_plugin_version = '1.13';
+	window._zem_rp_num_rel_posts = '4';
+</script>
+<link rel="stylesheet" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/modern.css">
+<style type="text/css">
+.related_post_title {
+}
+ul.related_post {
+}
+ul.related_post li {
+}
+ul.related_post li a {
+}
+ul.related_post li img {
+}</style>
+
+	<!--wp code prettify-->
+<link rel="dns-prefetch" href="https://v0.wordpress.com/">
+<link rel="dns-prefetch" href="https://widgets.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://0.gravatar.com/">
+<link rel="dns-prefetch" href="https://1.gravatar.com/">
+<link rel="dns-prefetch" href="https://2.gravatar.com/">
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Access Global Memory Efficiently in CUDA C/C++ Kernels">
+<meta property="og:url" content="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/">
+<meta property="og:description" content="In the previous two posts we looked at how to move data efficiently between the host and device. In this sixth post of our CUDA C/C++ series we discuss how to efficiently access device memory, in p…">
+<meta property="article:published_time" content="2013-01-07T23:13:44+00:00">
+<meta property="article:modified_time" content="2014-06-09T14:29:34+00:00">
+<meta property="og:site_name" content="Parallel Forall">
+<meta property="og:image" content="/wp-content/uploads/2012/10/stride-1024x683.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+			<link rel="stylesheet" id="custom-css-css" type="text/css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/a.css">
+			<script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/embed.js" async="" type="text/javascript"></script><link href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/prettify.css" rel="stylesheet" type="text/css" id="prettify_css"><style type="text/css">.tk-nimbus-sans-condensed{font-family:"nimbus-sans-condensed","Helvetica",sans-serif;}</style><style type="text/css">@font-face{font-family:nimbus-sans-condensed;src:url(https://use.typekit.net/af/c68388/000000000000000000010124/27/l?subset_id=2&fvd=n4&token=yF%2FE3SjBcvixf1u1%2FWgnwH%2F%2By4dbNoT2Q%2B2ZHAqqM93XHJ9odUw6cENfZnzd8wHebZp4b3RaAXD7x%2FomBAytyK%2FY%2F%2F8HnDneAWyoPi5pjfQ%3D) format("woff2"),url(https://use.typekit.net/af/c68388/000000000000000000010124/27/d?subset_id=2&fvd=n4&token=yF%2FE3SjBcvixf1u1%2FWgnwH%2F%2By4dbNoT2Q%2B2ZHAqqM93XHJ9odUw6cENfZnzd8wHebZp4b3RaAXD7x%2FomBAytyK%2FY%2F%2F8HnDneAWyoPi5pjfQ%3D) format("woff"),url(https://use.typekit.net/af/c68388/000000000000000000010124/27/a?subset_id=2&fvd=n4&token=yF%2FE3SjBcvixf1u1%2FWgnwH%2F%2By4dbNoT2Q%2B2ZHAqqM93XHJ9odUw6cENfZnzd8wHebZp4b3RaAXD7x%2FomBAytyK%2FY%2F%2F8HnDneAWyoPi5pjfQ%3D) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:nimbus-sans-condensed;src:url(https://use.typekit.net/af/5291f1/000000000000000000010125/27/l?subset_id=2&fvd=n7&token=yF%2FE3SjBcvixf1u1%2FWgnwH%2F%2By4dbNoT2Q%2B2ZHAqqM93XHJ9odUw6cENfZnzd8wHebZp4b3RaAXD7x%2FomBAytyK%2FY%2F%2F8HnDneAWyoPi5pjfQ%3D) format("woff2"),url(https://use.typekit.net/af/5291f1/000000000000000000010125/27/d?subset_id=2&fvd=n7&token=yF%2FE3SjBcvixf1u1%2FWgnwH%2F%2By4dbNoT2Q%2B2ZHAqqM93XHJ9odUw6cENfZnzd8wHebZp4b3RaAXD7x%2FomBAytyK%2FY%2F%2F8HnDneAWyoPi5pjfQ%3D) format("woff"),url(https://use.typekit.net/af/5291f1/000000000000000000010125/27/a?subset_id=2&fvd=n7&token=yF%2FE3SjBcvixf1u1%2FWgnwH%2F%2By4dbNoT2Q%2B2ZHAqqM93XHJ9odUw6cENfZnzd8wHebZp4b3RaAXD7x%2FomBAytyK%2FY%2F%2F8HnDneAWyoPi5pjfQ%3D) format("opentype");font-weight:700;font-style:normal;}</style><style type="text/css" id="prettify_custom">pre.prettyprint { max-height: 500px; white-space: pre; word-wrap: normal; overflow: auto; background-color: #f8f8f8;border-radius: 3px; } pre.prettyprint[title]:before { float: right; border: 1px solid #ccc; border-radius: 3px; background: #ddd; padding: 10px; content: attr(title);  font: 13px "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif; }</style><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/count.js" type="text/javascript" async=""></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/count-data.js"></script><style type="text/css">.at-icon{fill:#fff;border:0}.at-icon-wrapper{display:inline-block;overflow:hidden}a .at-icon-wrapper{cursor:pointer}.at-rounded,.at-rounded-element .at-icon-wrapper{border-radius:12%}.at-circular,.at-circular-element .at-icon-wrapper{border-radius:50%}.addthis_32x32_style .at-icon{width:2pc;height:2pc}.addthis_24x24_style .at-icon{width:24px;height:24px}.addthis_20x20_style .at-icon{width:20px;height:20px}.addthis_16x16_style .at-icon{width:1pc;height:1pc}#at16lb{display:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:1001;background-color:#000;opacity:.001}#at_complete,#at_error,#at_share,#at_success{position:static!important}.at15dn{display:none}#at15s,#at16p,#at16p form input,#at16p label,#at16p textarea,#at_share .at_item{font-family:arial,helvetica,tahoma,verdana,sans-serif!important;font-size:9pt!important;outline-style:none;outline-width:0;line-height:1em}* html #at15s.mmborder{position:absolute!important}#at15s.mmborder{position:fixed!important;width:250px!important}#at15s{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABtJREFUeNpiZGBgaGAgAjAxEAlGFVJHIUCAAQDcngCUgqGMqwAAAABJRU5ErkJggg==);float:none;line-height:1em;margin:0;overflow:visible;padding:5px;text-align:left;position:absolute}#at15s a,#at15s span{outline:0;direction:ltr;text-transform:none}#at15s .at-label{margin-left:5px}#at15s .at-icon-wrapper{width:1pc;height:1pc;vertical-align:middle}#at15s .at-icon{width:1pc;height:1pc}.at4-icon{display:inline-block;background-repeat:no-repeat;background-position:top left;margin:0;overflow:hidden;cursor:pointer}.addthis_16x16_style .at4-icon,.addthis_default_style .at4-icon,.at4-icon,.at-16x16{width:1pc;height:1pc;line-height:1pc;background-size:1pc!important}.addthis_32x32_style .at4-icon,.at-32x32{width:2pc;height:2pc;line-height:2pc;background-size:2pc!important}.addthis_24x24_style .at4-icon,.at-24x24{width:24px;height:24px;line-height:24px;background-size:24px!important}.addthis_20x20_style .at4-icon,.at-20x20{width:20px;height:20px;line-height:20px;background-size:20px!important}.at4-icon.circular,.circular .at4-icon,.circular.aticon{border-radius:50%}.at4-icon.rounded,.rounded .at4-icon{border-radius:4px}.at4-icon-left{float:left}#at15s .at4-icon{text-indent:20px;padding:0;overflow:visible;white-space:nowrap;background-size:1pc;width:1pc;height:1pc;background-position:top left;display:inline-block;line-height:1pc}.addthis_vertical_style .at4-icon,.at4-follow-container .at4-icon{margin-right:5px}html>body #at15s{width:250px!important}#at15s.atm{background:none!important;padding:0!important;width:10pc!important}#at15s_inner{background:#fff;border:1px solid #fff;margin:0}#at15s_head{position:relative;background:#f2f2f2;padding:4px;cursor:default;border-bottom:1px solid #e5e5e5}.at15s_head_success{background:#cafd99!important;border-bottom:1px solid #a9d582!important}.at15s_head_success a,.at15s_head_success span{color:#000!important;text-decoration:none}#at15s_brand,#at15sptx,#at16_brand{position:absolute}#at15s_brand{top:4px;right:4px}.at15s_brandx{right:20px!important}a#at15sptx{top:4px;right:4px;text-decoration:none;color:#4c4c4c;font-weight:700}#at15sptx:hover{text-decoration:underline}#at16_brand{top:5px;right:30px;cursor:default}#at_hover{padding:4px}#at_hover .at_item,#at_share .at_item{background:#fff!important;float:left!important;color:#4c4c4c!important}#at_share .at_item .at-icon-wrapper{margin-right:5px}#at_hover .at_bold{font-weight:700;color:#000!important}#at_hover .at_item{width:7pc!important;padding:2px 3px!important;margin:1px;text-decoration:none!important}#at_hover .at_item.athov,#at_hover .at_item:focus,#at_hover .at_item:hover{margin:0!important}#at_hover .at_item.athov,#at_hover .at_item:focus,#at_hover .at_item:hover,#at_share .at_item.athov,#at_share .at_item:hover{background:#f2f2f2!important;border:1px solid #e5e5e5;color:#000!important;text-decoration:none}.ipad #at_hover .at_item:focus{background:#fff!important;border:1px solid #fff}.at15t{display:block!important;height:1pc!important;line-height:1pc!important;padding-left:20px!important;background-position:0 0;text-align:left}.addthis_button,.at15t{cursor:pointer}.addthis_toolbox a.at300b,.addthis_toolbox a.at300m{width:auto}.addthis_toolbox a{margin-bottom:5px;line-height:initial}.addthis_toolbox.addthis_vertical_style{width:200px}.addthis_button_facebook_like .fb_iframe_widget{line-height:100%}.addthis_button_facebook_like iframe.fb_iframe_widget_lift{max-width:none}.addthis_toolbox a.addthis_button_counter,.addthis_toolbox a.addthis_button_facebook_like,.addthis_toolbox a.addthis_button_facebook_send,.addthis_toolbox a.addthis_button_facebook_share,.addthis_toolbox a.addthis_button_foursquare,.addthis_toolbox a.addthis_button_google_plusone,.addthis_toolbox a.addthis_button_linkedin_counter,.addthis_toolbox a.addthis_button_pinterest_pinit,.addthis_toolbox a.addthis_button_stumbleupon_badge,.addthis_toolbox a.addthis_button_tweet{display:inline-block}.at-share-tbx-element .google_plusone_iframe_widget>span>div{vertical-align:top!important}.addthis_toolbox span.addthis_follow_label{display:none}.addthis_toolbox.addthis_vertical_style span.addthis_follow_label{display:block;white-space:nowrap}.addthis_toolbox.addthis_vertical_style a{display:block}.addthis_toolbox.addthis_vertical_style.addthis_32x32_style a{line-height:2pc;height:2pc}.addthis_toolbox.addthis_vertical_style .at300bs{margin-right:4px;float:left}.addthis_toolbox.addthis_20x20_style span{line-height:20px;*height:20px}.addthis_toolbox.addthis_32x32_style span{line-height:2pc;*height:2pc}.addthis_toolbox.addthis_pill_combo_style .addthis_button_compact .at15t_compact,.addthis_toolbox.addthis_pill_combo_style a{float:left}.addthis_toolbox.addthis_pill_combo_style a.addthis_button_tweet{margin-top:-2px}.addthis_toolbox.addthis_pill_combo_style .addthis_button_compact .at15t_compact{margin-right:4px}.addthis_default_style .addthis_separator{margin:0 5px;display:inline}div.atclear{clear:both}.addthis_default_style .addthis_separator,.addthis_default_style .at4-icon,.addthis_default_style .at300b,.addthis_default_style .at300bo,.addthis_default_style .at300bs,.addthis_default_style .at300m{float:left}.at300b img,.at300bo img{border:0}a.at300b .at4-icon,a.at300m .at4-icon{display:block}.addthis_default_style .at300b,.addthis_default_style .at300bo,.addthis_default_style .at300m{padding:0 2px}.at300b,.at300bo,.at300bs,.at300m{cursor:pointer}.addthis_button_facebook_like.at300b:hover,.addthis_button_facebook_like.at300bs:hover,.addthis_button_facebook_send.at300b:hover,.addthis_button_facebook_send.at300bs:hover{opacity:1;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100)}.addthis_20x20_style .at15t,.addthis_20x20_style .at300bs{overflow:hidden;display:block;height:20px!important;width:20px!important;line-height:20px!important}.addthis_32x32_style .at15t,.addthis_32x32_style .at300bs{overflow:hidden;display:block;height:2pc!important;width:2pc!important;line-height:2pc!important}.at300bs{overflow:hidden;display:block;background-position:0 0;height:1pc;width:1pc;line-height:1pc!important}.addthis_default_style .at15t_compact,.addthis_default_style .at15t_expanded{margin-right:4px}#at_share .at_item{width:123px!important;padding:4px;margin-right:2px;border:1px solid #fff}#at16p{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABtJREFUeNpiZGBgaGAgAjAxEAlGFVJHIUCAAQDcngCUgqGMqwAAAABJRU5ErkJggg==);z-index:10000001;position:absolute;top:50%;left:50%;width:300px;padding:10px;margin:0 auto;margin-top:-185px;margin-left:-155px;font-family:arial,helvetica,tahoma,verdana,sans-serif;font-size:9pt;color:#5e5e5e}#at_share{margin:0;padding:0}#at16pt{position:relative;background:#f2f2f2;height:13px;padding:5px 10px}#at16pt a,#at16pt h4{font-weight:700}#at16pt h4{display:inline;margin:0;padding:0;font-size:9pt;color:#4c4c4c;cursor:default}#at16pt a{position:absolute;top:5px;right:10px;color:#4c4c4c;text-decoration:none;padding:2px}#at15sptx:focus,#at16pt a:focus{outline:thin dotted}#at15s #at16pf a{top:1px}#_atssh{width:1px!important;height:1px!important;border:0!important}.atm{width:10pc!important;padding:0;margin:0;line-height:9pt;letter-spacing:normal;font-family:arial,helvetica,tahoma,verdana,sans-serif;font-size:9pt;color:#444;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABtJREFUeNpiZGBgaGAgAjAxEAlGFVJHIUCAAQDcngCUgqGMqwAAAABJRU5ErkJggg==);padding:4px}.atm-f{text-align:right;border-top:1px solid #ddd;padding:5px 8px}.atm-i{background:#fff;border:1px solid #d5d6d6;padding:0;margin:0;box-shadow:1px 1px 5px rgba(0,0,0,.15)}.atm-s{margin:0!important;padding:0!important}.atm-s a:focus{border:transparent;outline:0;-webkit-transition:none;transition:none}#at_hover.atm-s a,.atm-s a{display:block;text-decoration:none;padding:4px 10px;color:#235dab!important;font-weight:400;font-style:normal;-webkit-transition:none;transition:none}#at_hover.atm-s .at_bold{color:#235dab!important}#at_hover.atm-s a:hover,.atm-s a:hover{background:#2095f0;text-decoration:none;color:#fff!important}#at_hover.atm-s .at_bold{font-weight:700}#at_hover.atm-s a:hover .at_bold{color:#fff!important}.atm-s a .at-label{vertical-align:middle;margin-left:5px;direction:ltr}.at_PinItButton{display:block;width:40px;height:20px;padding:0;margin:0;background-image:url(//s7.addthis.com/static/t00/pinit00.png);background-repeat:no-repeat}.at_PinItButton:hover{background-position:0 -20px}.addthis_toolbox .addthis_button_pinterest_pinit{position:relative}.at-share-tbx-element .fb_iframe_widget span{vertical-align:baseline!important}#at16pf{height:auto;text-align:right;padding:4px 8px}.at-privacy-info{position:absolute;left:7px;bottom:7px;cursor:pointer;text-decoration:none;font-family:helvetica,arial,sans-serif;font-size:10px;line-height:9pt;letter-spacing:.2px;color:#666}.at-privacy-info:hover{color:#000}.body .wsb-social-share .wsb-social-share-button-vert{padding-top:0;padding-bottom:0}.body .wsb-social-share.addthis_counter_style .addthis_button_tweet.wsb-social-share-button{padding-top:44px}.body .wsb-social-share.addthis_counter_style .addthis_button_google_plusone.wsb-social-share-button{padding-top:4px}@media print{#at4-follow,#at4-share,#at4-thankyou,#at4-whatsnext,#at4m-mobile,#at15s,.at4,.at4-recommended{display:none!important}}@media screen and (max-width:400px){.at4win{width:100%}}@media screen and (max-height:700px) and (max-width:400px){.at4-thankyou-inner .at4-recommended-container{height:122px;overflow:hidden}.at4-thankyou-inner .at4-recommended .at4-recommended-item:first-child{border-bottom:1px solid #c5c5c5}}</style><style type="text/css">.at-branding-logo{font-family:helvetica,arial,sans-serif;text-decoration:none;font-size:10px;display:inline-block;margin:2px 0;letter-spacing:.2px}.at-branding-logo .at-branding-icon{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF////+GlNUkcc1QAAAB1JREFUeNpiYIQDBjQmAwMmkwEM0JnY1WIxFyDAABGeAFEudiZsAAAAAElFTkSuQmCC")}.at-branding-logo .at-branding-icon,.at-branding-logo .at-privacy-icon{display:inline-block;height:10px;width:10px;margin-left:4px;margin-right:3px;margin-bottom:-1px;background-repeat:no-repeat}.at-branding-logo .at-privacy-icon{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAMAAABR24SMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhQTFRF8fr9ot/xXcfn2/P5AKva////////AKTWodjhjAAAAAd0Uk5T////////ABpLA0YAAAA6SURBVHjaJMzBDQAwCAJAQaj7b9xifV0kUKJ9ciWxlzWEWI5gMF65KUTv0VKkjVeTerqE/x7+9BVgAEXbAWI8QDcfAAAAAElFTkSuQmCC")}.at-branding-logo span{text-decoration:none}.at-branding-logo .at-branding-addthis,.at-branding-logo .at-branding-powered-by{color:#666}.at-branding-logo .at-branding-addthis:hover{color:#333}.at-cv-with-image .at-branding-addthis,.at-cv-with-image .at-branding-addthis:hover{color:#fff}a.at-branding-logo:visited{color:initial}.at-branding-info{display:inline-block;padding:0 5px;color:#666;border:1px solid #666;border-radius:50%;font-size:10px;line-height:9pt;opacity:.7;transition:all .3s ease;text-decoration:none}.at-branding-info span{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.at-branding-info:before{content:'i';font-family:Times New Roman}.at-branding-info:hover{color:#0780df;border-color:#0780df}</style><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/services.css"><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/button.js" async="" charset="utf-8" type="text/javascript"></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/timeline.js" async="" charset="utf-8" type="text/javascript"></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/menu.js" async="" charset="utf-8" type="text/javascript"></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/137.js" async="" charset="utf-8" type="text/javascript"></script><script src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/roundtrip.js" type="text/javascript" async="true"></script></head>
+<body class="single single-post postid-926 single-format-standard">
+
+<div id="page" class="hfeed">
+	<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header" style="">
+			<button class="navbar-toggle" type="button">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="logo-header">
+				<a href="https://developer.nvidia.com/"><img alt="NVIDIA Accelerated Computing" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/nvidia.png" height="21" width="112"></a>
+				<a href="https://developer.nvidia.com/accelerated-computing" class="title accelerated">ACCELERATED COMPUTING</a>
+			</div><!-- /.logo-header -->
+		</div><!-- /.navbar-header -->
+		<div class="collapse navbar-collapse" id="navbar-collapse" style="">
+			<ul class="nav navbar-nav" id="navbar-items">
+				<li class="menu-title">Cuda zone menu</li>
+				<li><a href="https://developer.nvidia.com/accelerated-computing-toolkit">Downloads</a></li>
+				<li><a href="https://developer.nvidia.com/accelerated-computing-training">Training</a></li>
+				<li><a href="https://developer.nvidia.com/tools-ecosystem">Ecosystem</a></li>
+				<li><a href="https://devtalk.nvidia.com/">Forums</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-margin navbar-right navbar-margin-media login-nav">
+				<li class="search" id="search-top">
+					<a class="hidden-xs hidden-sm" href="#" id="trigger-search-top">
+						<i class="fa fa-search"></i>
+					</a>
+					<div class="search-form" id="search-top-form">
+						<form action="https://devblogs.nvidia.com/parallelforall/" accept-charset="UTF-8" method="get" id="search-theme-form">
+							<div>
+								<div id="search" class="container-inline">
+									<div class=" form-type-textfield form-item-search-theme-form form-item form-group">
+										<div class="input">
+											<input placeholder="Search..." name="search_theme_form" id="search-top-bar" title="Enter the terms you wish to search for." class="form-text form-control " style="" type="text">
+											<span class="fa fa-search mobile-search"></span>
+											<div id="cuda-search-wrapper">
+												<input id="cuda-search" name="cuda-search" value="1" type="checkbox"> <label for="cuda-search">Search CUDA Zone</label>
+											</div>
+											<input id="s" name="s" value="" type="hidden">
+										</div><!-- /.input -->
+									</div><!-- /.form-type-textfield -->
+									<input name="form_build_id" id="form-psuQ7x3mMxCYiM5jWNkM_GhZlUH-jE68gGh2xJ6dG4U" value="form-psuQ7x3mMxCYiM5jWNkM_GhZlUH-jE68gGh2xJ6dG4U" type="hidden">
+									<input name="form_id" id="edit-search-theme-form" value="search_theme_form" type="hidden">
+								</div><!-- /#search -->
+							</div>
+						</form>
+					</div><!-- /.search-form -->
+				</li>
+				<li class="cuda-program-link">
+					<a href="https://developer.nvidia.com/accelerated-computing-developer"><i class="fa fa-lock fa-fw"></i> Register Now</a>
+				</li>
+				<li>
+					<a href="https://developer.nvidia.com/user">Login</a>
+				</li>
+			</ul>
+		</div><!-- /.collapse -->
+	</div><!-- /.container -->
+</nav>
+	<header id="branding" role="banner">
+		<nav id="access" role="navigation">
+			<a class="sidr-left-link sidr-toggle" href="#sidr-left"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+			<h1 class="blog-title"><a href="https://devblogs.nvidia.com/parallelforall/"><img src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/Parallel_ForAll_F_wht_H_237x20.png" alt="Parallel Forall" height="20" width="237"></a></h1>
+			<h3 class="assistive-text">Main menu</h3>
+						<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+			<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+						<div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-3130" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-3130"><a href="https://devblogs.nvidia.com/parallelforall/category/features/">Features</a></li>
+<li id="menu-item-1988" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1988"><a href="https://devblogs.nvidia.com/parallelforall/category/cudacasts/">CUDACasts</a></li>
+<li id="menu-item-1706" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1706"><a href="https://devblogs.nvidia.com/parallelforall/category/cuda-pro-tip/">CUDA Pro Tips</a></li>
+<li id="menu-item-1895" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1895"><a href="https://devblogs.nvidia.com/parallelforall/category/cuda-spotlight/">CUDA Spotlights</a></li>
+</ul></div>					</nav><!-- #access -->
+	</header>
+
+	<div id="main" class="grid clearfix">
+
+<div id="primary" class="c6-1234">
+	<div class="pagination pagination-single">
+		<span class="next"><a href="https://devblogs.nvidia.com/parallelforall/cuda-pro-tip-flush-denormals-confidence/" rel="next">Next →</a></span>
+		<span class="previous"><a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-fortran-kernels/" rel="prev">← Previous</a></span>
+	</div>
+		<article id="post-926" class="post-926 post type-post status-publish format-standard hentry category-features tag-cuda-cc tag-memory">
+			<div class="entry-thumbnail">
+							</div>
+			<header class="entry-header">
+				<h1 class="entry-title">How to Access Global Memory Efficiently in CUDA C/C++ Kernels</h1>
+				<!-- AddThis Button BEGIN -->
+				<div class="add-this addthis_toolbox addthis_default_style" addthis:url="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/" addthis:title="How to Access Global Memory Efficiently in CUDA C/C++ Kernels">
+					<div class="share-label">Share:</div>
+					<a href="#" title="Twitter" class="addthis_button_twitter at300b"><span style="background-color: rgb(29, 161, 242); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Twitter" title="Twitter" style="width: 16px; height: 16px;" class="at-icon at-icon-twitter" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M27.996 10.116c-.81.36-1.68.602-2.592.71a4.526 4.526 0 0 0 1.984-2.496 9.037 9.037 0 0 1-2.866 1.095 4.513 4.513 0 0 0-7.69 4.116 12.81 12.81 0 0 1-9.3-4.715 4.49 4.49 0 0 0-.612 2.27 4.51 4.51 0 0 0 2.008 3.755 4.495 4.495 0 0 1-2.044-.564v.057a4.515 4.515 0 0 0 3.62 4.425 4.52 4.52 0 0 1-2.04.077 4.517 4.517 0 0 0 4.217 3.134 9.055 9.055 0 0 1-5.604 1.93A9.18 9.18 0 0 1 6 23.85a12.773 12.773 0 0 0 6.918 2.027c8.3 0 12.84-6.876 12.84-12.84 0-.195-.005-.39-.014-.583a9.172 9.172 0 0 0 2.252-2.336"></path></g></svg></span></a>
+					<a href="#" title="Reddit" target="_blank" class="addthis_button_reddit at300b"><span style="background-color: rgb(255, 87, 0); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Reddit" title="Reddit" style="width: 16px; height: 16px;" class="at-icon at-icon-reddit" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M27 15.5a2.452 2.452 0 0 1-1.338 2.21c.098.38.147.777.147 1.19 0 1.283-.437 2.47-1.308 3.563-.872 1.092-2.06 1.955-3.567 2.588-1.506.634-3.143.95-4.91.95-1.768 0-3.403-.316-4.905-.95-1.502-.632-2.69-1.495-3.56-2.587-.872-1.092-1.308-2.28-1.308-3.562 0-.388.045-.777.135-1.166a2.47 2.47 0 0 1-1.006-.912c-.253-.4-.38-.842-.38-1.322 0-.678.237-1.26.712-1.744a2.334 2.334 0 0 1 1.73-.726c.697 0 1.29.26 1.78.782 1.785-1.258 3.893-1.928 6.324-2.01l1.424-6.467a.42.42 0 0 1 .184-.26.4.4 0 0 1 .32-.063l4.53 1.006c.147-.306.368-.553.662-.74a1.78 1.78 0 0 1 .97-.278c.508 0 .94.18 1.302.54.36.36.54.796.54 1.31 0 .512-.18.95-.54 1.315-.36.364-.794.546-1.302.546-.507 0-.94-.18-1.295-.54a1.793 1.793 0 0 1-.533-1.308l-4.1-.92-1.277 5.86c2.455.074 4.58.736 6.37 1.985a2.315 2.315 0 0 1 1.757-.757c.68 0 1.256.242 1.73.726.476.484.713 1.066.713 1.744zm-16.868 2.47c0 .513.178.95.534 1.315.356.365.787.547 1.295.547.508 0 .942-.182 1.302-.547.36-.364.54-.802.54-1.315 0-.513-.18-.95-.54-1.31-.36-.36-.794-.54-1.3-.54-.5 0-.93.183-1.29.547a1.79 1.79 0 0 0-.54 1.303zm9.944 4.406c.09-.09.135-.2.135-.323a.444.444 0 0 0-.44-.447c-.124 0-.23.042-.32.124-.336.348-.83.605-1.486.77a7.99 7.99 0 0 1-1.964.248 7.99 7.99 0 0 1-1.964-.248c-.655-.165-1.15-.422-1.486-.77a.456.456 0 0 0-.32-.124.414.414 0 0 0-.306.124.41.41 0 0 0-.135.317.45.45 0 0 0 .134.33c.352.355.837.636 1.455.843.617.207 1.118.33 1.503.366a11.6 11.6 0 0 0 1.117.056c.36 0 .733-.02 1.117-.056.385-.037.886-.16 1.504-.366.62-.207 1.104-.488 1.456-.844zm-.037-2.544c.507 0 .938-.182 1.294-.547.356-.364.534-.802.534-1.315 0-.505-.18-.94-.54-1.303a1.75 1.75 0 0 0-1.29-.546c-.506 0-.94.18-1.3.54-.36.36-.54.797-.54 1.31s.18.95.54 1.315c.36.365.794.547 1.3.547z"></path></g></svg></span></a>
+					<a href="#" title="Facebook" class="addthis_button_facebook at300b"><span style="background-color: rgb(59, 89, 152); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Facebook" title="Facebook" style="width: 16px; height: 16px;" class="at-icon at-icon-facebook" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M22 5.16c-.406-.054-1.806-.16-3.43-.16-3.4 0-5.733 1.825-5.733 5.17v2.882H9v3.913h3.837V27h4.604V16.965h3.823l.587-3.913h-4.41v-2.5c0-1.123.347-1.903 2.198-1.903H22V5.16z"></path></g></svg></span></a>
+					<a href="#" title="Google+" target="_blank" class="addthis_button_google_plusone_share at300b" g:plusone:size="small"><span style="background-color: rgb(220, 78, 65); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Google+" title="Google+" style="width: 16px; height: 16px;" class="at-icon at-icon-google_plusone_share" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M12 15v2.4h3.97c-.16 1.03-1.2 3.02-3.97 3.02-2.39 0-4.34-1.98-4.34-4.42s1.95-4.42 4.34-4.42c1.36 0 2.27.58 2.79 1.08l1.9-1.83C15.47 9.69 13.89 9 12 9c-3.87 0-7 3.13-7 7s3.13 7 7 7c4.04 0 6.72-2.84 6.72-6.84 0-.46-.05-.81-.11-1.16H12zm15 0h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2z"></path></g></svg></span></a> 
+					<a href="#" title="LinkedIn" target="_blank" class="addthis_button_linkedin at300b"><span style="background-color: rgb(0, 119, 181); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="LinkedIn" title="LinkedIn" style="width: 16px; height: 16px;" class="at-icon at-icon-linkedin" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M26 25.963h-4.185v-6.55c0-1.56-.027-3.57-2.175-3.57-2.18 0-2.51 1.7-2.51 3.46v6.66h-4.182V12.495h4.012v1.84h.058c.558-1.058 1.924-2.174 3.96-2.174 4.24 0 5.022 2.79 5.022 6.417v7.386zM8.23 10.655a2.426 2.426 0 0 1 0-4.855 2.427 2.427 0 0 1 0 4.855zm-2.098 1.84h4.19v13.468h-4.19V12.495z"></path></g></svg></span></a>
+					<a href="#" title="Email" target="_blank" class="addthis_button_email at300b"><span style="background-color: rgb(132, 132, 132); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Email" title="Email" style="width: 16px; height: 16px;" class="at-icon at-icon-email" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><g fill-rule="evenodd"></g><path d="M27 22.757c0 1.24-.988 2.243-2.19 2.243H7.19C5.98 25 5 23.994 5 22.757V13.67c0-.556.39-.773.855-.496l8.78 5.238c.782.467 1.95.467 2.73 0l8.78-5.238c.472-.28.855-.063.855.495v9.087z"></path><path d="M27 9.243C27 8.006 26.02 7 24.81 7H7.19C5.988 7 5 8.004 5 9.243v.465c0 .554.385 1.232.857 1.514l9.61 5.733c.267.16.8.16 1.067 0l9.61-5.733c.473-.283.856-.96.856-1.514v-.465z"></path></g></svg></span></a>
+				<div class="atclear"></div></div>
+				<!-- AddThis Button END -->
+				<div class="entry-meta">
+					Posted on <a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/" title="11:13 pm" rel="bookmark"><time class="entry-date" datetime="11:13 pm" pubdate="">January 7, 2013 </time></a> by <a href="https://devblogs.nvidia.com/parallelforall/author/mharris/" title="Posts by Mark Harris" class="author url fn" rel="author">Mark Harris</a>					<a data-disqus-identifier="926 http://www.parallelforall.com/?p=926" class="meta-comments-link" href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/#disqus_thread">4 Comments</a>
+										<span class="tag-links">
+						Tagged <a href="https://devblogs.nvidia.com/parallelforall/tag/cuda-cc/" rel="tag">CUDA C/C++</a>, <a href="https://devblogs.nvidia.com/parallelforall/tag/memory/" rel="tag">Memory</a>					</span>
+				</div><!-- .entry-meta -->
+
+			</header><!-- .entry-header -->
+
+			<div class="entry-content">
+				<p>In the previous <a title="How to Optimize Data Transfers in CUDA C/C++" href="http://devblogs.nvidia.com/parallelforall/how-optimize-data-transfers-cuda-cc/">two</a> <a title="How to Overlap Data Transfers in CUDA C/C++" href="http://devblogs.nvidia.com/parallelforall/how-overlap-data-transfers-cuda-cc/">posts</a>
+ we looked at how to move data efficiently between the host and device. 
+In this sixth post of our CUDA C/C++ series we discuss how to 
+efficiently access device memory, in particular <em>global memory</em>, from within kernels.</p>
+<p>There are several kinds of memory on a CUDA device, each with 
+different scope, lifetime, and caching behavior. So far in this series 
+we have used <em>global memory</em>, which resides in device DRAM, for 
+transfers between the host and device as well as for the data input to 
+and output from kernels. The name <em>global</em> here refers to scope, 
+as it can be accessed and modified from both the host and the device. 
+Global memory can be declared in global (variable) scope using the <kbd>__device__</kbd> declaration specifier as in the first line of the following code snippet, or dynamically&nbsp;allocated using <a href="http://docs.nvidia.com/cuda/cuda-runtime-api/index.html#group__CUDART__MEMORY_1g16a37ee003fcd9374ac8e6a5d4dee29e" target="_blank"><kbd>cudaMalloc()</kbd></a>
+ and assigned to a regular C pointer variable as in line 7. Global 
+memory allocations&nbsp;can persist for the lifetime of the application.
+ Depending on the <a title="How to Query Device Properties and Handle Errors in CUDA C/C++" href="http://devblogs.nvidia.com/parallelforall/how-query-device-properties-and-handle-errors-cuda-cc/">compute capability</a> of the device, global memory may or may not be cached on the chip.</p>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class="L0"><span class="pln">__device__ </span><span class="kwd">int</span><span class="pln"> globalArray</span><span class="pun">[</span><span class="lit">256</span><span class="pun">];</span></li><li class="L1"><span class="pln">&nbsp;</span></li><li class="L2"><span class="kwd">void</span><span class="pln"> foo</span><span class="pun">()</span></li><li class="L3"><span class="pun">{</span></li><li class="L4"><span class="pln">    </span><span class="pun">...</span></li><li class="L5"><span class="pln">    </span><span class="kwd">int</span><span class="pln"> </span><span class="pun">*</span><span class="pln">myDeviceMemory </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span></li><li class="L6"><span class="pln">    </span><span class="typ">cudaError_t</span><span class="pln"> result </span><span class="pun">=</span><span class="pln"> cudaMalloc</span><span class="pun">(&amp;</span><span class="pln">myDeviceMemory</span><span class="pun">,</span><span class="pln"> </span><span class="lit">256</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">sizeof</span><span class="pun">(</span><span class="kwd">int</span><span class="pun">));</span></li><li class="L7"><span class="pln">    </span><span class="pun">...</span></li><li class="L8"><span class="pun">}</span></li></ol></pre>
+<p>Before we go into global memory access performance, we need to refine
+ our understanding of the CUDA execution model. We have discussed how <a title="An Easy Introduction to CUDA C and C++" href="http://devblogs.nvidia.com/parallelforall/easy-introduction-cuda-c-and-c/">threads are grouped into thread blocks</a>, which are assigned to multiprocessors on the device. During execution there is a finer grouping of threads into <em>warps</em>. Multiprocessors on the GPU execute instructions for each warp in SIMD (<a href="http://en.wikipedia.org/wiki/SIMD" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://en.wikipedia.org/wiki/SIMD', 'Single Instruction Multiple Data');">Single Instruction Multiple Data</a>) fashion. The warp size (effectively the SIMD width) of all current CUDA-capable GPUs is 32 threads.</p>
+<h2>Global Memory Coalescing</h2>
+<p>Grouping of threads into warps is not only relevant to computation, but also to global memory accesses. The device <em>coalesces&nbsp;</em>global
+ memory loads and stores issued by threads of a warp into as few 
+transactions as possible to minimize DRAM bandwidth (on older hardware 
+of compute capability less than 2.0, transactions are coalesced within 
+half warps of 16 threads rather than whole warps). To make clear the 
+conditions under which coalescing occurs across CUDA device 
+architectures we run some simple experiments on three Tesla cards: a 
+Tesla C870 (compute capability 1.0), a Tesla C1060 (compute capability 
+1.3), and a Tesla C2050 (compute capability 2.0).<span id="more-926"></span></p>
+<p>We run two experiments that use variants of an increment kernel shown in the following code (<a href="https://github.com/parallel-forall/code-samples/blob/master/series/cuda-cpp/coalescing-global/coalescing.cu" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/parallel-forall/code-samples/blob/master/series/cuda-cpp/coalescing-global/coalescing.cu', 'also available on GitHub');" target="_blank">also available on GitHub</a>),
+ one with an array offset that can cause misaligned accesses to the 
+input array, and the other with strided accesses to the input array.</p>
+<pre style="" class="prettyprint prettyprinted"><span class="com">#include</span><span class="pln"> 
+</span><span class="com">#include</span><span class="pln"> 
+
+</span><span class="com">// Convenience function for checking CUDA runtime API results</span><span class="pln">
+</span><span class="com">// can be wrapped around any runtime API call. No-op in release builds.</span><span class="pln">
+</span><span class="kwd">inline</span><span class="pln">
+</span><span class="typ">cudaError_t</span><span class="pln"> checkCuda</span><span class="pun">(</span><span class="typ">cudaError_t</span><span class="pln"> result</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+</span><span class="com">#if defined(DEBUG) || defined(_DEBUG)</span><span class="pln">
+  </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">result </span><span class="pun">!=</span><span class="pln"> cudaSuccess</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    fprintf</span><span class="pun">(</span><span class="pln">stderr</span><span class="pun">,</span><span class="pln"> </span><span class="str">"CUDA Runtime Error: %sn"</span><span class="pun">,</span><span class="pln"> cudaGetErrorString</span><span class="pun">(</span><span class="pln">result</span><span class="pun">));</span><span class="pln">
+    </span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">result </span><span class="pun">==</span><span class="pln"> cudaSuccess</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="com">#endif</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> result</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">template</span><span class="pln"> 
+__global__ </span><span class="kwd">void</span><span class="pln"> offset</span><span class="pun">(</span><span class="pln">T</span><span class="pun">*</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> s</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> blockDim</span><span class="pun">.</span><span class="pln">x </span><span class="pun">*</span><span class="pln"> blockIdx</span><span class="pun">.</span><span class="pln">x </span><span class="pun">+</span><span class="pln"> threadIdx</span><span class="pun">.</span><span class="pln">x </span><span class="pun">+</span><span class="pln"> s</span><span class="pun">;</span><span class="pln">
+  a</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> a</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">template</span><span class="pln"> 
+__global__ </span><span class="kwd">void</span><span class="pln"> stride</span><span class="pun">(</span><span class="pln">T</span><span class="pun">*</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> s</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">blockDim</span><span class="pun">.</span><span class="pln">x </span><span class="pun">*</span><span class="pln"> blockIdx</span><span class="pun">.</span><span class="pln">x </span><span class="pun">+</span><span class="pln"> threadIdx</span><span class="pun">.</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> s</span><span class="pun">;</span><span class="pln">
+  a</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> a</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">template</span><span class="pln"> 
+</span><span class="kwd">void</span><span class="pln"> runTest</span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> deviceId</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> nMB</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">int</span><span class="pln"> blockSize </span><span class="pun">=</span><span class="pln"> </span><span class="lit">256</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">float</span><span class="pln"> ms</span><span class="pun">;</span><span class="pln">
+
+  T </span><span class="pun">*</span><span class="pln">d_a</span><span class="pun">;</span><span class="pln">
+  </span><span class="typ">cudaEvent_t</span><span class="pln"> startEvent</span><span class="pun">,</span><span class="pln"> stopEvent</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="kwd">int</span><span class="pln"> n </span><span class="pun">=</span><span class="pln"> nMB</span><span class="pun">*</span><span class="lit">1024</span><span class="pun">*</span><span class="lit">1024</span><span class="pun">/</span><span class="kwd">sizeof</span><span class="pun">(</span><span class="pln">T</span><span class="pun">);</span><span class="pln">
+
+  </span><span class="com">// NB:  d_a(33*nMB) for stride case</span><span class="pln">
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaMalloc</span><span class="pun">(&amp;</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> n </span><span class="pun">*</span><span class="pln"> </span><span class="lit">33</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">sizeof</span><span class="pun">(</span><span class="pln">T</span><span class="pun">))</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventCreate</span><span class="pun">(&amp;</span><span class="pln">startEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventCreate</span><span class="pun">(&amp;</span><span class="pln">stopEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+
+  printf</span><span class="pun">(</span><span class="str">"Offset, Bandwidth (GB/s):n"</span><span class="pun">);</span><span class="pln">
+
+  offset</span><span class="pun">&lt;&lt;&gt;&gt;(</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">);</span><span class="pln"> </span><span class="com">// warm up</span><span class="pln">
+
+  </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;=</span><span class="pln"> </span><span class="lit">32</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaMemset</span><span class="pun">(</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.0</span><span class="pun">,</span><span class="pln"> n </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">sizeof</span><span class="pun">(</span><span class="pln">T</span><span class="pun">))</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventRecord</span><span class="pun">(</span><span class="pln">startEvent</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+    offset</span><span class="pun">&lt;&lt;&gt;&gt;(</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> i</span><span class="pun">);</span><span class="pln">
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventRecord</span><span class="pun">(</span><span class="pln">stopEvent</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventSynchronize</span><span class="pun">(</span><span class="pln">stopEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventElapsedTime</span><span class="pun">(&amp;</span><span class="pln">ms</span><span class="pun">,</span><span class="pln"> startEvent</span><span class="pun">,</span><span class="pln"> stopEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+    printf</span><span class="pun">(</span><span class="str">"%d, %fn"</span><span class="pun">,</span><span class="pln"> i</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">*</span><span class="pln">nMB</span><span class="pun">/</span><span class="pln">ms</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  printf</span><span class="pun">(</span><span class="str">"n"</span><span class="pun">);</span><span class="pln">
+  printf</span><span class="pun">(</span><span class="str">"Stride, Bandwidth (GB/s):n"</span><span class="pun">);</span><span class="pln">
+
+  stride</span><span class="pun">&lt;&lt;&gt;&gt;(</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">);</span><span class="pln"> </span><span class="com">// warm up</span><span class="pln">
+  </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;=</span><span class="pln"> </span><span class="lit">32</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaMemset</span><span class="pun">(</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.0</span><span class="pun">,</span><span class="pln"> n </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">sizeof</span><span class="pun">(</span><span class="pln">T</span><span class="pun">))</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventRecord</span><span class="pun">(</span><span class="pln">startEvent</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+    stride</span><span class="pun">&lt;&lt;&gt;&gt;(</span><span class="pln">d_a</span><span class="pun">,</span><span class="pln"> i</span><span class="pun">);</span><span class="pln">
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventRecord</span><span class="pun">(</span><span class="pln">stopEvent</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventSynchronize</span><span class="pun">(</span><span class="pln">stopEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+
+    checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventElapsedTime</span><span class="pun">(&amp;</span><span class="pln">ms</span><span class="pun">,</span><span class="pln"> startEvent</span><span class="pun">,</span><span class="pln"> stopEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+    printf</span><span class="pun">(</span><span class="str">"%d, %fn"</span><span class="pun">,</span><span class="pln"> i</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">*</span><span class="pln">nMB</span><span class="pun">/</span><span class="pln">ms</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventDestroy</span><span class="pun">(</span><span class="pln">startEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaEventDestroy</span><span class="pun">(</span><span class="pln">stopEvent</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+  cudaFree</span><span class="pun">(</span><span class="pln">d_a</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">int</span><span class="pln"> main</span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> argc</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">char</span><span class="pln"> </span><span class="pun">**</span><span class="pln">argv</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">int</span><span class="pln"> nMB </span><span class="pun">=</span><span class="pln"> </span><span class="lit">4</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">int</span><span class="pln"> deviceId </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">bool</span><span class="pln"> bFp64 </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;</span><span class="pln"> argc</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">    
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(!</span><span class="pln">strncmp</span><span class="pun">(</span><span class="pln">argv</span><span class="pun">[</span><span class="pln">i</span><span class="pun">],</span><span class="pln"> </span><span class="str">"dev="</span><span class="pun">,</span><span class="pln"> </span><span class="lit">4</span><span class="pun">))</span><span class="pln">
+      deviceId </span><span class="pun">=</span><span class="pln"> atoi</span><span class="pun">((</span><span class="kwd">char</span><span class="pun">*)(&amp;</span><span class="pln">argv</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="lit">4</span><span class="pun">]));</span><span class="pln">
+    </span><span class="kwd">else</span><span class="pln"> </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(!</span><span class="pln">strcmp</span><span class="pun">(</span><span class="pln">argv</span><span class="pun">[</span><span class="pln">i</span><span class="pun">],</span><span class="pln"> </span><span class="str">"fp64"</span><span class="pun">))</span><span class="pln">
+      bFp64 </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  cudaDeviceProp prop</span><span class="pun">;</span><span class="pln">
+
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaSetDevice</span><span class="pun">(</span><span class="pln">deviceId</span><span class="pun">)</span><span class="pln"> </span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">;</span><span class="pln">
+  checkCuda</span><span class="pun">(</span><span class="pln"> cudaGetDeviceProperties</span><span class="pun">(&amp;</span><span class="pln">prop</span><span class="pun">,</span><span class="pln"> deviceId</span><span class="pun">)</span><span class="pln"> </span><span class="pun">);</span><span class="pln">
+  printf</span><span class="pun">(</span><span class="str">"Device: %sn"</span><span class="pun">,</span><span class="pln"> prop</span><span class="pun">.</span><span class="pln">name</span><span class="pun">);</span><span class="pln">
+  printf</span><span class="pun">(</span><span class="str">"Transfer size (MB): %dn"</span><span class="pun">,</span><span class="pln"> nMB</span><span class="pun">);</span><span class="pln">
+
+  printf</span><span class="pun">(</span><span class="str">"%s Precisionn"</span><span class="pun">,</span><span class="pln"> bFp64 </span><span class="pun">?</span><span class="pln"> </span><span class="str">"Double"</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Single"</span><span class="pun">);</span><span class="pln">
+
+  </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">bFp64</span><span class="pun">)</span><span class="pln"> runTest</span><span class="pun">(</span><span class="pln">deviceId</span><span class="pun">,</span><span class="pln"> nMB</span><span class="pun">);</span><span class="pln">
+  </span><span class="kwd">else</span><span class="pln">       runTest</span><span class="pun">(</span><span class="pln">deviceId</span><span class="pun">,</span><span class="pln"> nMB</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>This code can run both offset and stride kernels in either single 
+(default) or double precision by passing the “fp64” command line option.
+ Each kernel takes two arguments, an input array and an integer 
+representing the offset or stride used to access the elements of the 
+array. The kernels are called in loops over a range of offsets and 
+strides.</p>
+<h2>Misaligned Data Accesses</h2>
+<p>The results for the offset kernel on the Tesla C870, C1060, and C2050 appear&nbsp;in the following figure.</p>
+<p><a href="http://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/offset.png"><img class="alignnone size-large wp-image-528" alt="" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/offset-1024x683.png" height="389" width="584"></a></p>
+<p>Arrays allocated in device memory are aligned to 256-byte memory 
+segments by the CUDA driver. The device can access global memory via 
+32-, 64-, or 128-byte transactions that are aligned to their size. For 
+the C870 or any other device with a compute capability of 1.0, any 
+misaligned access by a half warp of threads (or aligned access where the
+ threads of the half warp do not access memory in sequence) results in 
+16 separate 32-byte transactions. Since only 4 bytes are requested per 
+32-byte transaction, one would expect the effective bandwidth to be 
+reduced by a factor of eight, which is roughly what we see in the figure
+ above (brown line) for offsets that are not a multiple of 16 elements, 
+corresponding to one half warp of threads.</p>
+<p>For the Tesla C1060 or other devices with compute capability of 1.2 
+or 1.3, misaligned accesses are less problematic. Basically, the 
+misaligned accesses of contiguous data by a half warp of threads are 
+serviced in a few transactions that “cover” the requested data. There is
+ still a performance penalty relative to the aligned case due both to 
+unrequested data being transferred and to some overlap of data requested
+ by different half-warps, but the penalty is far less than for the C870.</p>
+<p>Devices of compute capability 2.0, such as the Tesla C2050, have an 
+L1 cache in each multiprocessor with a 128-byte line size. The device 
+coalesces accesses by threads in a warp into as few cache lines as 
+possible, resulting in negligible effect of alignment on throughput for 
+sequential memory accesses across threads.</p>
+<h2>Strided Memory Access</h2>
+<p>The results of the stride kernel appear in the following figure.</p>
+<p><a href="http://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/stride.png"><img class="alignnone size-large wp-image-529" alt="" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/stride-1024x683.png" srcset="https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/stride-1024x683.png 1024w, https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/stride-300x200.png 300w, https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/stride-449x300.png 449w, https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/stride-134x90.png 134w, https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2012/10/stride.png 1250w" sizes="(max-width: 584px) 100vw, 584px" height="389" width="584"></a></p>
+<p>For strided global memory access we have a different picture. For 
+large strides, the effective bandwidth is poor regardless of 
+architecture version. This should not be surprising: when concurrent 
+threads simultaneously access memory addresses that are very far apart 
+in physical memory, then there is no chance for the hardware to combine 
+the accesses. You can see in the figure above that on the Tesla C870 any
+ stride other than 1 results in drastically reduced effective bandwidth.
+ This is because compute capability 1.0 and 1.1 hardware requires 
+linear, aligned accesses across threads for coalescing, so we see the 
+familiar 1/8 bandwidth that we also saw in the offset kernel. Compute 
+capability 1.2 and higher hardware can coalesce accesses that fall into 
+aligned segments (32, 64, or 128 byte segments on CC 1.2/1.3, and 
+128-byte cache lines on CC 2.0 and higher), so this hardware results in a
+ smooth bandwidth curve.</p>
+<p>When accessing multidimensional arrays it is often necessary for 
+threads to index the higher dimensions of the array, so strided access 
+is simply unavoidable. We can handle these cases by using a type of CUDA
+ memory called <em>shared memory</em>. Shared memory is an on-chip 
+memory shared by all threads in a thread block. One use of shared memory
+ is to extract a 2D tile of a multidimensional array from global memory 
+in a coalesced fashion into shared memory, and then have contiguous 
+threads stride through the shared memory tile. Unlike global memory, 
+there is no penalty for strided access of shared memory. We will cover 
+shared memory in detail in the next post.</p>
+<h1>&nbsp;Summary</h1>
+<p>In this post we discussed some aspects of how to efficiently access 
+global memory from within CUDA kernel code. Global memory access on the 
+device shares performance characteristics with data access on the host; 
+namely, that data locality is very important. In early CUDA hardware, 
+memory access alignment was as important as locality across threads, but
+ on recent hardware alignment is not much of a concern. On the other 
+hand, strided memory access can hurt performance, which can be 
+alleviated using on-chip shared memory. In the <a title="Using Shared Memory in CUDA C/C++" href="http://devblogs.nvidia.com/parallelforall/using-shared-memory-in-cuda-cc/">next post</a>
+ we will explore shared memory in detail, and in the post after that we 
+will show how to use shared memory to avoid strided global memory 
+accesses during a <a title="An Efficient Matrix Transpose in CUDA C/C++" href="http://devblogs.nvidia.com/parallelforall/efficient-matrix-transpose-cuda-cc/">matrix transpose</a>.</p>
+
+<div class="zem_rp_wrap zem_rp_th_modern" id="zem_rp_first"><div class="zem_rp_content"><h3 class="related_post_title">Related Posts</h3><ul class="related_post zem_rp"><li data-position="0" data-poid="in-883" data-post-type="none"><a href="https://devblogs.nvidia.com/parallelforall/how-overlap-data-transfers-cuda-cc/" class="zem_rp_title">How to Overlap Data Transfers in CUDA C/C++</a></li><li data-position="1" data-poid="in-805" data-post-type="none"><a href="https://devblogs.nvidia.com/parallelforall/how-optimize-data-transfers-cuda-cc/" class="zem_rp_title">How to Optimize Data Transfers in CUDA C/C++</a></li><li data-position="2" data-poid="in-521" data-post-type="none"><a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-fortran-kernels/" class="zem_rp_title">How to Access Global Memory Efficiently in CUDA Fortran Kernels</a></li><li data-position="3" data-poid="in-964" data-post-type="none"><a href="https://devblogs.nvidia.com/parallelforall/using-shared-memory-cuda-cc/" class="zem_rp_title">Using Shared Memory in CUDA C/C++</a></li></ul></div></div>
+<div class="parallel-forall-signature">∥∀</div>
+      <div class="add-this addthis_toolbox addthis_default_style" addthis:url="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/" addthis:title="How to Access Global Memory Efficiently in CUDA C/C++ Kernels">
+        <div class="share-label">Share:</div>
+        <a href="#" title="Twitter" class="addthis_button_twitter at300b"><span style="background-color: rgb(29, 161, 242); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Twitter" title="Twitter" style="width: 16px; height: 16px;" class="at-icon at-icon-twitter" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M27.996 10.116c-.81.36-1.68.602-2.592.71a4.526 4.526 0 0 0 1.984-2.496 9.037 9.037 0 0 1-2.866 1.095 4.513 4.513 0 0 0-7.69 4.116 12.81 12.81 0 0 1-9.3-4.715 4.49 4.49 0 0 0-.612 2.27 4.51 4.51 0 0 0 2.008 3.755 4.495 4.495 0 0 1-2.044-.564v.057a4.515 4.515 0 0 0 3.62 4.425 4.52 4.52 0 0 1-2.04.077 4.517 4.517 0 0 0 4.217 3.134 9.055 9.055 0 0 1-5.604 1.93A9.18 9.18 0 0 1 6 23.85a12.773 12.773 0 0 0 6.918 2.027c8.3 0 12.84-6.876 12.84-12.84 0-.195-.005-.39-.014-.583a9.172 9.172 0 0 0 2.252-2.336"></path></g></svg></span></a>
+        <a href="#" title="Reddit" target="_blank" class="addthis_button_reddit at300b"><span style="background-color: rgb(255, 87, 0); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Reddit" title="Reddit" style="width: 16px; height: 16px;" class="at-icon at-icon-reddit" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M27 15.5a2.452 2.452 0 0 1-1.338 2.21c.098.38.147.777.147 1.19 0 1.283-.437 2.47-1.308 3.563-.872 1.092-2.06 1.955-3.567 2.588-1.506.634-3.143.95-4.91.95-1.768 0-3.403-.316-4.905-.95-1.502-.632-2.69-1.495-3.56-2.587-.872-1.092-1.308-2.28-1.308-3.562 0-.388.045-.777.135-1.166a2.47 2.47 0 0 1-1.006-.912c-.253-.4-.38-.842-.38-1.322 0-.678.237-1.26.712-1.744a2.334 2.334 0 0 1 1.73-.726c.697 0 1.29.26 1.78.782 1.785-1.258 3.893-1.928 6.324-2.01l1.424-6.467a.42.42 0 0 1 .184-.26.4.4 0 0 1 .32-.063l4.53 1.006c.147-.306.368-.553.662-.74a1.78 1.78 0 0 1 .97-.278c.508 0 .94.18 1.302.54.36.36.54.796.54 1.31 0 .512-.18.95-.54 1.315-.36.364-.794.546-1.302.546-.507 0-.94-.18-1.295-.54a1.793 1.793 0 0 1-.533-1.308l-4.1-.92-1.277 5.86c2.455.074 4.58.736 6.37 1.985a2.315 2.315 0 0 1 1.757-.757c.68 0 1.256.242 1.73.726.476.484.713 1.066.713 1.744zm-16.868 2.47c0 .513.178.95.534 1.315.356.365.787.547 1.295.547.508 0 .942-.182 1.302-.547.36-.364.54-.802.54-1.315 0-.513-.18-.95-.54-1.31-.36-.36-.794-.54-1.3-.54-.5 0-.93.183-1.29.547a1.79 1.79 0 0 0-.54 1.303zm9.944 4.406c.09-.09.135-.2.135-.323a.444.444 0 0 0-.44-.447c-.124 0-.23.042-.32.124-.336.348-.83.605-1.486.77a7.99 7.99 0 0 1-1.964.248 7.99 7.99 0 0 1-1.964-.248c-.655-.165-1.15-.422-1.486-.77a.456.456 0 0 0-.32-.124.414.414 0 0 0-.306.124.41.41 0 0 0-.135.317.45.45 0 0 0 .134.33c.352.355.837.636 1.455.843.617.207 1.118.33 1.503.366a11.6 11.6 0 0 0 1.117.056c.36 0 .733-.02 1.117-.056.385-.037.886-.16 1.504-.366.62-.207 1.104-.488 1.456-.844zm-.037-2.544c.507 0 .938-.182 1.294-.547.356-.364.534-.802.534-1.315 0-.505-.18-.94-.54-1.303a1.75 1.75 0 0 0-1.29-.546c-.506 0-.94.18-1.3.54-.36.36-.54.797-.54 1.31s.18.95.54 1.315c.36.365.794.547 1.3.547z"></path></g></svg></span></a>
+        <a href="#" title="Facebook" class="addthis_button_facebook at300b"><span style="background-color: rgb(59, 89, 152); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Facebook" title="Facebook" style="width: 16px; height: 16px;" class="at-icon at-icon-facebook" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M22 5.16c-.406-.054-1.806-.16-3.43-.16-3.4 0-5.733 1.825-5.733 5.17v2.882H9v3.913h3.837V27h4.604V16.965h3.823l.587-3.913h-4.41v-2.5c0-1.123.347-1.903 2.198-1.903H22V5.16z"></path></g></svg></span></a>
+        <a href="#" title="Google+" target="_blank" class="addthis_button_google_plusone_share at300b" g:plusone:size="small"><span style="background-color: rgb(220, 78, 65); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Google+" title="Google+" style="width: 16px; height: 16px;" class="at-icon at-icon-google_plusone_share" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M12 15v2.4h3.97c-.16 1.03-1.2 3.02-3.97 3.02-2.39 0-4.34-1.98-4.34-4.42s1.95-4.42 4.34-4.42c1.36 0 2.27.58 2.79 1.08l1.9-1.83C15.47 9.69 13.89 9 12 9c-3.87 0-7 3.13-7 7s3.13 7 7 7c4.04 0 6.72-2.84 6.72-6.84 0-.46-.05-.81-.11-1.16H12zm15 0h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2z"></path></g></svg></span></a>
+        <a href="#" title="LinkedIn" target="_blank" class="addthis_button_linkedin at300b"><span style="background-color: rgb(0, 119, 181); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="LinkedIn" title="LinkedIn" style="width: 16px; height: 16px;" class="at-icon at-icon-linkedin" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" d="M26 25.963h-4.185v-6.55c0-1.56-.027-3.57-2.175-3.57-2.18 0-2.51 1.7-2.51 3.46v6.66h-4.182V12.495h4.012v1.84h.058c.558-1.058 1.924-2.174 3.96-2.174 4.24 0 5.022 2.79 5.022 6.417v7.386zM8.23 10.655a2.426 2.426 0 0 1 0-4.855 2.427 2.427 0 0 1 0 4.855zm-2.098 1.84h4.19v13.468h-4.19V12.495z"></path></g></svg></span></a>
+        <a href="#" title="Email" target="_blank" class="addthis_button_email at300b"><span style="background-color: rgb(132, 132, 132); line-height: 16px; height: 16px; width: 16px;" class="at-icon-wrapper"><svg alt="Email" title="Email" style="width: 16px; height: 16px;" class="at-icon at-icon-email" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><g fill-rule="evenodd"></g><path d="M27 22.757c0 1.24-.988 2.243-2.19 2.243H7.19C5.98 25 5 23.994 5 22.757V13.67c0-.556.39-.773.855-.496l8.78 5.238c.782.467 1.95.467 2.73 0l8.78-5.238c.472-.28.855-.063.855.495v9.087z"></path><path d="M27 9.243C27 8.006 26.02 7 24.81 7H7.19C5.988 7 5 8.004 5 9.243v.465c0 .554.385 1.232.857 1.514l9.61 5.733c.267.16.8.16 1.067 0l9.61-5.733c.473-.283.856-.96.856-1.514v-.465z"></path></g></svg></span></a>
+      <div class="atclear"></div></div>
+    				<!--extra here-->
+							</div><!-- .entry-content -->
+			<footer class="entry-meta">
+								<div id="author-info" class="author-box">
+					<h2>About Mark Harris</h2>
+					<div id="author-avatar">
+						<img id="grav-0cc5e1ce6bfacc40a08e21f106d5f8b4-0" alt="" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/0cc5e1ce6bfacc40a08e21f106d5f8b4.jpg" srcset="https://secure.gravatar.com/avatar/0cc5e1ce6bfacc40a08e21f106d5f8b4?s=120&amp;d=retro&amp;r=g 2x" class="avatar avatar-60 photo grav-hashed grav-hijack" height="60" width="60">					</div><!-- #author-avatar -->
+					<div id="author-description">
+						Mark is Chief Technologist for GPU Computing Software at NVIDIA. 
+Mark has fifteen years of experience developing software for GPUs, 
+ranging from graphics and games, to physically-based simulation, to 
+parallel algorithms and high-performance computing. Mark has been using 
+GPUs for general-purpose computing since before they even supported 
+floating point arithmetic. While a Ph.D. student at UNC he recognized 
+this nascent trend and coined a name for it: GPGPU (General-Purpose 
+computing on Graphics Processing Units), and started GPGPU.org to 
+provide a forum for those working in the field to share and discuss 
+their work.													<a class="author-twitter-link" href="https://twitter.com/intent/user?screen_name=harrism">Follow @harrism on Twitter</a>
+																			<div id="author-link">
+								<a href="https://devblogs.nvidia.com/parallelforall/author/mharris/" rel="author">
+									View all posts by Mark Harris <span class="meta-nav">→</span>								</a>
+							</div><!-- #author-link	-->
+											</div><!-- #author-description	-->
+				</div><!-- #author-info -->
+							</footer><!-- .entry-meta -->
+		</article><!-- #post-926 -->
+
+
+<div id="disqus_thread"><iframe verticalscrolling="no" horizontalscrolling="no" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/a.htm" style="width: 1px ! important; min-width: 100% ! important; border: medium none ! important; overflow: hidden ! important; height: 1193px ! important;" title="Disqus" tabindex="0" scrolling="no" allowtransparency="true" name="dsq-app1" id="dsq-app1" width="100%" frameborder="0"></iframe></div>
+
+<script type="text/javascript">
+var disqus_url = 'https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/';
+var disqus_identifier = '926 http://www.parallelforall.com/?p=926';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'nvparallelforall';
+var disqus_title = "How to Access Global Memory Efficiently in CUDA C\/C++ Kernels";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=926';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+	
+</div> <!-- #content -->
+<div id="secondary" class="c6-56 widget-area sidebar" role="complementary">
+	<aside id="subscribe">
+		<div class="subscribe-via">
+			<p><span>Subscribe:</span> <a href="http://feeds.feedburner.com/nvidia/parallelforall" rel="alternate" type="application/rss+xml" class="sub-rss">RSS</a> <a href="#" class="sub-email">Email</a></p>
+			<p class="subscribe-connect clearfix"><span>Connect:</span> <iframe data-screen-name="gpucomputing" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/follow_button.htm" title="Twitter Follow Button" style="position: static; visibility: visible; width: 144px; height: 20px;" class="twitter-follow-button twitter-follow-button-rendered" allowtransparency="true" scrolling="no" id="twitter-widget-0" frameborder="0"></iframe>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></p>
+			<div class="email-box">
+				<a href="#" class="close">X</a>
+				<form onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=nvidia/parallelforall', 'popupwindow', 'scrollbars=no, width=550,height=520');return true" target="popupwindow" method="post" name="feedburneremail" action="https://feedburner.google.com/fb/a/mailverify"> 
+					<fieldset>
+						<h3>Enter your email address:</h3>
+						<p>
+							<input name="email" type="text">
+						</p>
+						<input name="uri" value="nvidia/parallelforall" type="hidden">
+						<input name="loc" value="en_US" type="hidden">
+						<p class="submit" onclick="document.getElementById('subscribesubmit').click();">
+							<button id="subscribesubmit_1" type="submit">Subscribe</button>
+						</p>
+						<div class="clr"></div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</aside>
+	<aside id="metaslider_widget-2" class="widget clearfix widget_metaslider_widget"><!-- meta slider -->
+<div style="width: 100%; margin: 0 auto;" class="metaslider metaslider-flex metaslider-1824 ml-slider nav-hidden">
+    <style type="text/css" id="metaslider-css-1824">
+        #metaslider_1824.flexslider .slides li {margin-right: 5px !important;}
+    </style>
+    <div id="metaslider_container_1824">
+        <div class="flexslider" id="metaslider_1824">
+            
+        <div style="overflow: hidden; position: relative;" class="flex-viewport"><ul style="width: 600%; margin-left: -570px;" class="slides">
+                <li style="display: block; width: 280px; float: left;" class="slide-7280 ms-image"><a href="https://developer.nvidia.com/cuda-toolkit?ncid=so-dis-glvt-291" target="_blank"><img draggable="false" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/223664_NV-CUDA-247x136-P4ASidebar-1-238x136.jpg" alt="" class="slider-1824 slide-7280" height="160" width="280"></a></li>
+                <li style="display: block; width: 280px; float: left;" class="slide-7192 ms-image"><a href="https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013" target="_blank"><img draggable="false" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/NVIDIA_UDACITY-x-DLI_Parallel_Forall-280x160-B.png" alt="" class="slider-1824 slide-7192" height="160" width="280"></a></li>
+                <li style="display: block; width: 280px; float: left;" class="slide-6619 ms-image"><a href="https://developer.nvidia.com/pascal" target="_blank"><img draggable="false" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/15-NV-Pascal-280x160-P4ASidebar-1.jpg" alt="" class="slider-1824 slide-6619" height="160" width="280"></a></li>
+            </ul></div><ul class="flex-direction-nav"><li><a class="flex-prev" href="#">&lt;</a></li><li><a class="flex-next" href="#">&gt;</a></li></ul></div>
+        
+    </div>
+    <script type="text/javascript">
+        var metaslider_1824 = function($) {
+            $('#metaslider_1824').addClass('flexslider'); // theme/plugin conflict avoidance
+            $('#metaslider_1824').flexslider({ 
+                slideshowSpeed:4500,
+                animation:'slide',
+                controlNav:false,
+                directionNav:true,
+                pauseOnHover:true,
+                direction:'horizontal',
+                reverse:false,
+                animationSpeed:600,
+                prevText:"&lt;",
+                nextText:"&gt;",
+                easing:"easeInQuad",
+                slideshow:true,
+                itemWidth:280,
+                minItems:1,
+                itemMargin:5,
+                useCSS:false
+            });
+        };
+        var timer_metaslider_1824 = function() {
+            var slider = !window.jQuery ? window.setTimeout(timer_metaslider_1824, 100) : !jQuery.isReady ? window.setTimeout(timer_metaslider_1824, 1) : metaslider_1824(window.jQuery);
+        };
+        timer_metaslider_1824();
+    </script>
+</div>
+<!--// meta slider--></aside><aside id="nav_menu-2" class="widget clearfix widget_nav_menu"><h1 class="widget-title">Resources</h1><div class="menu-sidebar-links-container"><ul id="menu-sidebar-links" class="menu"><li id="menu-item-1820" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1820"><a href="https://devblogs.nvidia.com/parallelforall/about/">About Parallel Forall</a></li>
+<li id="menu-item-1821" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1821"><a href="https://devtalk.nvidia.com/">NVIDIA Developer Forums</a></li>
+<li id="menu-item-2129" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2129"><a href="http://www.nvidia.com/object/cuda_signup_alerts.html">Accelerated Computing Newsletter</a></li>
+</ul></div></aside>		<aside id="recent-posts-3" class="widget clearfix widget_recent_entries">		<h1 class="widget-title">Recent Posts</h1>		<ul>
+					<li>
+				<a href="https://devblogs.nvidia.com/parallelforall/beyond-gpu-memory-limits-unified-memory-pascal/">Beyond GPU Memory Limits with Unified Memory on Pascal</a>
+						</li>
+					<li>
+				<a href="https://devblogs.nvidia.com/parallelforall/image-segmentation-using-digits-5/">Image Segmentation Using DIGITS 5</a>
+						</li>
+					<li>
+				<a href="https://devblogs.nvidia.com/parallelforall/new-compiler-features-cuda-8/">New Compiler Features in CUDA 8</a>
+						</li>
+					<li>
+				<a href="https://devblogs.nvidia.com/parallelforall/deep-learning-in-aerial-systems-jetson/">Deep Learning in Aerial Systems Using Jetson</a>
+						</li>
+					<li>
+				<a href="https://devblogs.nvidia.com/parallelforall/mixed-precision-programming-cuda-8/">Mixed-Precision Programming with CUDA 8</a>
+						</li>
+				</ul>
+		</aside>		<aside id="twitter_timeline-2" class="widget clearfix widget_twitter_timeline"><h1 class="widget-title"></h1><iframe title="Twitter Timeline" data-widget-id="342768028263534592" style="position: static; visibility: visible; display: inline-block; width: 282px; height: 400px; padding: 0px; border: medium none; max-width: 100%; min-width: 180px; margin-top: 0px; margin-bottom: 0px; min-height: 200px;" class="twitter-timeline twitter-timeline-rendered" allowfullscreen="true" allowtransparency="true" scrolling="no" id="twitter-widget-1" frameborder="0"></iframe></aside><aside id="recent-comments-3" class="widget clearfix widget_recent_comments"><h1 class="widget-title">Recent Comments</h1><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">Nerea</span> on <a href="https://devblogs.nvidia.com/parallelforall/exploring-spacenet-dataset-using-digits/#comment-1788">Exploring the SpaceNet Dataset Using DIGITS</a></li><li class="recentcomments"><span class="comment-author-link">Greg</span> on <a href="https://devblogs.nvidia.com/parallelforall/image-segmentation-using-digits-5/#comment-1786">Image Segmentation Using DIGITS 5</a></li><li class="recentcomments"><span class="comment-author-link">panovr</span> on <a href="https://devblogs.nvidia.com/parallelforall/image-segmentation-using-digits-5/#comment-1785">Image Segmentation Using DIGITS 5</a></li><li class="recentcomments"><span class="comment-author-link">Manoj Kumar</span> on <a href="https://devblogs.nvidia.com/parallelforall/fast-spectral-graph-partitioning-gpus/#comment-1783">Fast Spectral Graph Partitioning on GPUs</a></li><li class="recentcomments"><span class="comment-author-link">dbv</span> on <a href="https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/#comment-1782">End-to-End Deep Learning for Self-Driving Cars</a></li></ul></aside></div><!--#secondary-->
+
+	<!--wp code prettify-->
+	<script type="text/javascript">
+	function $(id) {return !id ? null : document.getElementById(id);}
+
+	loadPrettifyCss = function () {
+		if(!$('prettify_css')) {
+			css = document.createElement('link');
+			css.id = 'prettify_css';
+			css.type = 'text/css';
+			css.rel = 'stylesheet';
+			css.href = 'https://devblogs.nvidia.com/parallelforall/wp-content/plugins/wp-code-prettify/css/prettify.css';
+			var headNode = document.getElementsByTagName("head")[0];
+			headNode.appendChild(css);
+		} else {
+			$('prettify_css').href = 'https://devblogs.nvidia.com/parallelforall/wp-content/plugins/wp-code-prettify/css/prettify.css';
+		}
+
+		if(!$('prettify_custom')) {
+			css = document.createElement('style');
+			css.id = 'prettify_custom';
+			css.type = 'text/css';
+			css.rel = 'stylesheet';
+			css.innerHTML = 'pre.prettyprint { max-height: 500px; white-space: pre; word-wrap: normal; overflow: auto; background-color: #f8f8f8;border-radius: 3px; } pre.prettyprint[title]:before { float: right; border: 1px solid #ccc; border-radius: 3px; background: #ddd; padding: 10px; content: attr(title);  font: 13px "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif; }';
+			var headNode = document.getElementsByTagName("head")[0];
+			headNode.appendChild(css);
+		} else {
+			$('prettify_css').innerHTML = 'pre.prettyprint { max-height: 500px; white-space: pre; word-wrap: normal; overflow: auto; background-color: #f8f8f8;border-radius: 3px; } pre.prettyprint[title]:before { float: right; border: 1px solid #ccc; border-radius: 3px; background: #ddd; padding: 10px; content: attr(title);  font: 13px "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif; }';
+		}
+	}
+	</script>
+	<script type="text/javascript">
+		loadPrettifyCss();
+	</script>
+
+	<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/prettify.js"></script>
+	<script type="text/javascript">
+		function wpCodePrettifyOnLoad(func){
+			var wpCodePrettifyOldOnLoad = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func
+			} else {
+				window.onload = function () {
+					wpCodePrettifyOldOnLoad();
+					func()
+				}
+			}
+		}
+
+		wpCodePrettifyOnLoad(function(){prettyPrint();});
+	</script>
+	<!--//wp code prettify-->
+	
+	</div><!-- #main -->
+
+</div><!-- #page -->
+
+<footer class="cuda-footer">
+	<div class="footer-links">
+		<div class="container">
+			<div class="row">
+				<div class="footer-top">
+					<div class="padding-md-footer">
+						<div class="logo-footer"></div>
+					</div>
+					<div class="padding-section-footer">
+						<ul class="zone-select">
+							<li id="menu-item-5089" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5089"><a href="https://developer.nvidia.com/accelerated-computing">ACCELERATED COMPUTING</a></li>
+<li id="menu-item-5090" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5090"><a href="https://developer.nvidia.com/gameworks">GAMEWORKS</a></li>
+<li id="menu-item-5091" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5091"><a href="https://developer.nvidia.com/embedded-computing">EMBEDDED COMPUTING</a></li>
+<li id="menu-item-5092" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5092"><a href="https://developer.nvidia.com/designworks">DESIGNWORKS</a></li>
+						</ul>
+					</div><!-- /.cols-xs-12 -->
+				</div><!-- /.col-xs-12 -->
+				<div class="footer-btm">
+					<div class="block block-menu footer-col" id="block-menu-menu-cuda-zone-category-1 ">
+						<div class="padding-sub-footer">
+							<h5>
+								GET STARTED							</h5>
+							<div class="block-content">
+								<ul id="navbar-items" class="menu">
+									<li id="menu-item-5093" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5093"><a href="https://developer.nvidia.com/about-cuda">About CUDA</a></li>
+<li id="menu-item-5094" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5094"><a href="https://developer.nvidia.com/accelerated-computing-training">Parallel Computing</a></li>
+<li id="menu-item-5095" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5095"><a href="https://developer.nvidia.com/cuda-toolkit">CUDA Toolkit</a></li>
+<li id="menu-item-5096" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5096"><a href="http://www.youtube.com/playlist?list=PL5B692fm6--vScfBaxgY89IRWFzDt0Khm" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.youtube.com/playlist?list=PL5B692fm6--vScfBaxgY89IRWFzDt0Khm', 'CUDACast');">CUDACast</a></li>
+								</ul>
+							</div><!-- /.block-content -->
+						</div><!-- /.padding-sub-footer -->
+					</div><!-- /.block -->
+					<div class="block block-menu footer-col" id="block-menu-menu-cuda-zone-category-2 ">
+						<div class="padding-sub-footer">
+							<h5>
+								LEARN MORE							</h5>
+							<div class="block-content">
+								<ul id="navbar-items" class="menu">
+									<li id="menu-item-5101" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5101"><a title="Get help getting or providing education or training on Parallel Computing" href="https://developer.nvidia.com/cuda-education-training">Training and Courseware</a></li>
+<li id="menu-item-5102" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5102"><a href="https://developer.nvidia.com/tools-ecosystem">Tools and Ecosystem</a></li>
+<li id="menu-item-5103" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5103"><a href="https://developer.nvidia.com/academia">Academic Collaboration</a></li>
+<li id="menu-item-5104" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5104"><a href="http://docs.nvidia.com/cuda/index.html">Documentation</a></li>
+								</ul>
+							</div><!-- /.block-content -->
+						</div><!-- /.padding-sub-footer -->
+					</div><!-- /.block -->
+					<div class="block block-menu footer-col" id="block-menu-menu-cuda-zone-category-3 ">
+						<div class="padding-sub-footer">
+							<h5>
+								GET INVOLVED							</h5>
+							<div class="block-content">
+								<ul id="navbar-items" class="menu">
+									<li id="menu-item-5097" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5097"><a title="Engage with NVIDIA support and other developers" href="https://devtalk.nvidia.com/">Forums</a></li>
+<li id="menu-item-5098" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-5098"><a title="A technical blog written by Developers for Developers" href="https://devblogs.nvidia.com/parallelforall/">Parallel Forall Blog</a></li>
+<li id="menu-item-5099" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5099"><a href="https://developer.nvidia.com/cuda-registered-developer-program">Developer Program</a></li>
+<li id="menu-item-5100" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5100"><a href="https://developer.nvidia.com/contact">Contact Us</a></li>
+								</ul>
+							</div><!-- /.block-content -->
+						</div><!-- /.padding-sub-footer -->
+					</div><!-- /.block -->
+				</div><!-- /.col-xs-12 -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</div><!-- /.footer-links -->
+	<div class="footer-boilerplate">
+		<div class="container">
+			<div class="boilerplate">
+				Copyright © 2016 NVIDIA Corporation				&nbsp; | &nbsp;
+				<a href="http://www.nvidia.com/object/legal_info.html">Legal Information</a>
+				&nbsp; | &nbsp;
+				<a href="http://www.nvidia.com/object/privacy_policy.html">Privacy Policy</a>
+			</div><!-- /.boilerplate -->
+		</div><!-- /.container -->
+	</div><!-- /.footer-boilerplate -->
+</footer>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/wjw6vwy.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'nvparallelforall';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1 && nodes[i].parentNode.tagName == 'A') {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+         	<div id="sidr-left" class="sidebar-container sidr left" role="complementary">
+					<div class="sidr-toggle"><a class="sidr-left-link" href="#sidr-left">Close</a></div>
+					<div class="widget-area"><aside id="nav_menu-4" class="widget widget_nav_menu"><h3 class="widget-title">Parallel Forall</h3><div class="menu-main-menu-container"><ul id="menu-main-menu-1" class="menu"><li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-3130"><a href="https://devblogs.nvidia.com/parallelforall/category/features/">Features</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1988"><a href="https://devblogs.nvidia.com/parallelforall/category/cudacasts/">CUDACasts</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1706"><a href="https://devblogs.nvidia.com/parallelforall/category/cuda-pro-tip/">CUDA Pro Tips</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1895"><a href="https://devblogs.nvidia.com/parallelforall/category/cuda-spotlight/">CUDA Spotlights</a></li>
+</ul></div></aside><aside id="search-3" class="widget widget_search"><form role="search" method="get" class="searchform" id="searchform" action="https://devblogs.nvidia.com/parallelforall/">
+  <div><label class="screen-reader-text" for="s">Search for:</label>
+    <input placeholder="Search..." name="s" id="s" type="text">
+    <span class="fa fa-search visible-xs visible-sm"></span>
+    <input id="searchsubmit" value="Search" type="submit">
+  </div>
+</form></aside><aside id="text-2" class="widget widget_text"><h3 class="widget-title">Accelerated Computing</h3>			<div class="textwidget"><ul class="nav navbar-nav navbar-margin navbar-right navbar-margin-media login-nav">
+  <li><a href="https://developer.nvidia.com/accelerated-computing">Accelerated Computing</a></li>
+  <li><a href="https://developer.nvidia.com/accelerated-computing-toolkit">Downloads</a></li>
+  <li><a href="https://developer.nvidia.com/accelerated-computing-training">Training</a></li>
+  <li><a href="https://developer.nvidia.com/tools-ecosystem">Ecosystem</a></li>
+<li><a href="https://devtalk.nvidia.com/">Forums</a></li>
+    <li class="cuda-program-link">
+        <a href="https://developer.nvidia.com/accelerated-computing-developer"><i class="fa fa-lock fa-fw"></i> Register Now</a>
+    </li>
+    <li>
+        <a href="https://developer.nvidia.com/user">Login</a>
+    </li>
+</ul></div>
+		</aside> 		</div><!-- .widget-area -->
+				</div><!-- #sidr-left -->	<div style="display:none">
+	<div class="grofile-hash-map-0cc5e1ce6bfacc40a08e21f106d5f8b4">
+	</div>
+	</div>
+<link rel="stylesheet" id="metaslider-flex-slider-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/flexslider.css" type="text/css" media="all" property="stylesheet">
+<link rel="stylesheet" id="metaslider-public-css" href="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/public.css" type="text/css" media="all" property="stylesheet">
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/sidr-init.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/wpgroho.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/comment-reply.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/ios-orientationchange-fix.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/twitter-timeline.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/effect.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/effect-blind.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var stbUserOptions = {"mode":"css","cssOptions":{"roundedCorners":true,"mbottom":10,"imgHide":"https:\/\/devblogs.nvidia.com\/parallelforall\/wp-content\/stb-themes\/stb-dark\/minus.png","imgShow":"https:\/\/devblogs.nvidia.com\/parallelforall\/wp-content\/stb-themes\/stb-dark\/plus.png","strHide":"Hide","strShow":"Show"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/wstb.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/wp-embed.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jquery_002.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/jQuery.js"></script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/e-201650.js" async="" defer="defer"></script>
+<script type="text/javascript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:4.3.2',blog:'58448338',post:'926',tz:'-8',srv:'devblogs.nvidia.com'} ]);
+	_stq.push([ 'clickTrackerInit', '58448338', '926' ]);
+</script>
+<script type="text/javascript" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/addthis_widget.js"></script><div id="_atssh" style="visibility: hidden; height: 1px; width: 1px; position: absolute; top: -9999px; z-index: 100000;"><iframe src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/sh.htm" style="height: 1px; width: 1px; position: absolute; top: 0px; z-index: 100000; border: 0px none; left: 0px;" title="AddThis utility frame" id="_atssh886"></iframe></div><style id="service-icons-0"></style>
+<script type="text/javascript">
+  adroll_adv_id = "FIFVXFM7UBEUBB263WGLHT";
+  adroll_pix_id = "XRPEH5KVE5GI5GW4KWAAR7";
+  /* OPTIONAL: provide email to improve user identification */
+  /* adroll_email = "username@example.com"; */
+  (function () {
+    var _onload = function(){
+    if (document.readyState && !/loaded|complete/.test(document.readyState))
+      {setTimeout(_onload, 10);return}
+    if (!window._adroll_loaded){_adroll_loaded=true;setTimeout(_onload, 50);return}
+      var scr = document.createElement("script");
+      var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+      scr.setAttribute('async', 'true');
+      scr.type = "text/javascript";
+      scr.src = host + "/j/roundtrip.js";
+      ((document.getElementsByTagName('head') || [null])[0] ||
+      document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+    };
+    if (window.addEventListener)
+      {window.addEventListener('load', _onload, false);}
+    else
+      {window.attachEvent('onload', _onload)}
+  }());
+</script>
+
+
+<img id="wpstats" alt=":)" src="How%20to%20Access%20Global%20Memory%20Efficiently%20in%20CUDA%20C_C++%20Kernels%20_%20Parallel%20Forall-Dateien/g.gif" height="5" width="6"><div class="sidr right" id="sidr-right"></div><iframe style="display: none;"></iframe><iframe title="Twitter analytics iframe" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" allowfullscreen="true" allowtransparency="true" scrolling="no" id="rufous-sandbox" frameborder="0"></iframe></body></html>
